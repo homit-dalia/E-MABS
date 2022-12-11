@@ -1,3 +1,4 @@
+//import 'react-native-gesture-handler'
 import { View, Text } from 'react-native'
 import React from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -23,10 +24,9 @@ const App = () => {
   return (
   <NavigationContainer>
       <Stack.Navigator> 
-      {/* // initialRouteName="HomeTab"
-      // >
-      //<Stack.Screen name="HomeTab" getComponent={HomeTab}/> */}
+        {/* <Stack.Screen name='Navigation' component={Navigation}/> */}
         <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
+        
         <Stack.Screen name="Register" component={RegisterScreen}/>
         <Stack.Screen options={{ headerShown: false }} name="Folder" component={FolderScreen}/>
         <Stack.Screen name="Home" component={HomeScreen} />
@@ -38,50 +38,5 @@ const App = () => {
   )
 }
 
-const HomeTab = () => {
-
-  const Tab = createBottomTabNavigator();
-
-
-   <NavigationContainer>
-    <Tab.Navigator 
-    screenOptions={({route})=> ({
-      tabBarIcon: ({focused, size, colour}) => {
-        let iconName;
-        if(route.name === "Fav 1"){
-          iconName = focused ? 'bookmark' : 'bookmark-outline'; 
-        }else if( route.name === "Fav 2")
-          iconName = focused ? 'bookmarks' : 'bookmarks-outline';
-        else if( route.name === "Add"){
-          iconName = focused ? 'add-circle' : 'add-circle-outline'; 
-          colour = 'coral'; 
-          size = 35;
-        }
-        else if( route.name === "Shared")
-         { iconName = focused ? 'share-social':'share-social-outline'; }
-        else if( route.name === "Account")
-          iconName = focused ? 'key' :'key-outline'; 
-        size = focused ? size+10 :size;
-        return <Ionicons name={iconName} colour={colour} size={size} />;
-      },
-  })}
-      tabBarOptions={{
-        activeTintColor: 'black',
-        inactiveTintColor: 'grey',
-        showLabel: false,
-        style: {
-          backgroundColor: '#ffc125',
-          height: 60,
-        },
-      }}>
-      <Tab.Screen name='Fav 1' component={Favourites1Screen}/>
-      <Tab.Screen name='Fav 2' component={Favourites2Screen}/>
-      <Tab.Screen name='Add' component={AddScreen}/>
-      <Tab.Screen name='Shared' component={SharedScreen}/>
-      <Tab.Screen name='Account' component={AccountScreen}/>
-    </Tab.Navigator>
-   </NavigationContainer>
-
-}
 
 export default App

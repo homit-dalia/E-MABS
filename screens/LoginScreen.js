@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Image, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { auth } from '../firebase'
 
+import Navigation from '../components/Navigation'
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('')
@@ -10,9 +11,10 @@ const LoginScreen = () => {
 
   const navigation = useNavigation()
 
-  const handleGoToBottomTab = (navigation) =>{
-    navigation.replace("HomeStackScreen")
+  const handleGoToBottomTab = () =>{
+    navigation.replace()
   }
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
@@ -81,7 +83,7 @@ const LoginScreen = () => {
           onPress={handleGoToBottomTab}
           style={[styles.button, styles.buttonOutline]}
         >
-          <Text style={styles.buttonOutlineText}>Go to Index Test</Text>
+          <Text style={styles.buttonOutlineText}>Test</Text>
         </TouchableOpacity>
         <Text style={styles.textBottom}>One solution for all your storage needs</Text>
       </View>
