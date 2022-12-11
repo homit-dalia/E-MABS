@@ -32,7 +32,7 @@ const Folders = () => {
   
   return (
     <View>
-      <Text style={styles.folderName}>Folders</Text>
+      <Text style={styles.folderName}>  Folders</Text>
       <TouchableOpacity
           onPress={handleFileOpen}
           style={[]}
@@ -122,9 +122,8 @@ const styles = StyleSheet.create({
     fontStyle: 'bold',
     width: '100%',
     color: 'black',
-  
     fontSize: 30,
-    borderRadius: 10,
+    fontWeight: '700'
  
   },
   listView: {
@@ -145,7 +144,7 @@ const styles = StyleSheet.create({
     fontSize: 23,
     padding: 10,
     color: 'black',
-    backgroundColor: '#dbd8ce'
+   
   },
   folderNames: {
     
@@ -153,7 +152,8 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     fontSize: 23,
     padding: 10,
-    color: 'brown',
-    backgroundColor: '#dbd8ce'
+    color: 'black',
+    backgroundColor: 'grey',
+  
   },
 })
