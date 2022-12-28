@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Button } from 'react-native'
 
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
@@ -9,7 +9,11 @@ const Favourites1Screen = () => {
     <View>
       <Text>Fav 1 Screen</Text>
       <Ionicons name='bookmarks-outline' color={'coral'} size={40} />
+      
     </View>
+    
+    
+ 
   );
 };
 

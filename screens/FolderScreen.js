@@ -1,23 +1,98 @@
 import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
-import { FlatList,KeyboardAvoidingView, ListViewBase, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import {
+  SafeAreaView, Right, Header, Container, Body, Title, FlatList, KeyboardAvoidingView,
+  ListViewBase, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View
+} from 'react-native'
 import { auth } from '../firebase'
+import DocumentPicker from 'react-native-document-picker'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
-{/* <SafeAreaView style={styles.button}>
-  <Text>Hello, Welcome to Home Screen</Text>
-  <Image source={{uri: "https://picsum.photos/200" }}>
+import RNFetchBlob from 'rn-fetch-blob'
+import firebaseSetup from '../firebase'
+
+
+const Folders = (props) => {
+
+  //fix this line
+  //const { database, storage } = firebaseSetup()
   
-  </Image>
-</SafeAreaView> */}
-
-const Folders = () => {
   const navigation = useNavigation()
+  
+  async function chooseFile() {
+    try {
+      const file = await DocumentPicker.pickSingle({
+        type: [DocumentPicker.types.allFiles],
+      });
+      console.log(
+        file.uri,
+        file.type,
+        file.name,
+        file.size,
+      );
+      const path = await normalizePath(file.uri)
+      const result = await RNFetchBlob.fs.readFile(path, 'base64')
+      uploadFileToFirebaseStorage(result, file);
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+
+      } else {
+        throw err;
+      }
+
+    }
+  }
+
+  async function normalizePath(path) {
+    if (Platform.OS === 'ios' || Platform.OS === 'android') {
+      const filePrefix = 'file://';
+      if (path.startsWith(filePrefix)) {
+        path = path.substring(filePrefix.length);
+        try {
+          path = decodeURI(path);
+        } catch (e) { }
+      }
+    }
+    return path;
+  }
+
+  async function uploadFileToFirebaseStorage(result, file) {
+    const uploadTask = storage().ref(`allFiles/${file.name}`.putString(result, 'base64', { contentType: file.type }));
+
+    uploadTask.on('state_changed',
+      (snapshot) => {
+        // Observe state change events such as progress, pause, and resume
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+        switch (snapshot.state) {
+          case 'paused':
+            console.log('Upload is paused');
+            break;
+          case 'running':
+            console.log('Upload is running');
+            break;
+        }
+      },
+      (error) => {
+        // Handle unsuccessful uploads
+      },
+      () => {
+        // Handle successful uploads on complete
+        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log('File available at', downloadURL);
+        });
+      }
+    );
+
+  }
 
   const handleSignOut = () => {
     auth
       .signOut()
       .then(() => {
-        navigation.replace("Login")
+        navigation.navigate("Login")
       })
       .catch(error => alert(error.message))
   }
@@ -29,65 +104,44 @@ const Folders = () => {
       })
       .catch(error => alert(error.message))
   }
-  
+
   return (
-    <View>
-      <Text style={styles.folderName}>  Folders</Text>
-      <TouchableOpacity
-          onPress={handleFileOpen}
-          style={[]}
-        > 
-          <Text style={styles.fileNames}>
-             Random.png
+    <SafeAreaView>
+
+      <Text style={styles.headerContainer}>
+        <Text style={styles.pathName}>
+          Folders
         </Text>
-          
 
-        </TouchableOpacity>
-     
-      <Text style={styles.fileNames}>
-        Cat.png
-      </Text>
-      <Text style={styles.folderNames}>
-        > Selection.zip
-      </Text>
-      <Text style={styles.folderNames}>
-        > Student Docs.zip
-      </Text>
-      <Text style={styles.fileNames}>
-        xlss.pdf
-      </Text>
-      <Text style={styles.fileNames}>
-        study.pdf
-      </Text>
-      <Text style={styles.folderNames}>
-        > assests_uncrompressed
-      </Text>
 
-        <TouchableOpacity
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonOutlineText}>Create new folder +</Text>
-          
-
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, styles.buttonOutline]}
-        >
-         <Text style={styles.buttonOutlineText}>Delete Files -</Text>
-          
-
+        <TouchableOpacity style={styles.uploadIcon}
+          onPress={chooseFile}>
+          <Ionicons name='cloud-upload' color='#0E86D4' size={40} />
         </TouchableOpacity>
 
-        <TouchableOpacity
+
+      </Text>
+
+
+      <TouchableOpacity
+        style={[styles.button, styles.buttonOutline]}
+      >
+        <Text style={styles.buttonOutlineText}>Delete Files -</Text>
+
+
+      </TouchableOpacity>
+
+      <TouchableOpacity
         onPress={handleSignOut}
         style={styles.button}
       >
         <Text style={styles.buttonText}>Sign out</Text>
       </TouchableOpacity>
-        
-    </View>
+
+    </SafeAreaView>
   )
 }
+
 
 export default Folders
 
@@ -117,17 +171,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 18,
   },
-  folderName: {
-    backgroundColor: 'grey',
-    fontStyle: 'bold',
-    width: '100%',
-    color: 'black',
-    fontSize: 30,
-    fontWeight: '700'
- 
-  },
+
   listView: {
-  
+
     padding: 15,
     margin: 5,
   },
@@ -144,16 +190,35 @@ const styles = StyleSheet.create({
     fontSize: 23,
     padding: 10,
     color: 'black',
-   
+
   },
   folderNames: {
-    
+
     marginTop: 4,
     marginLeft: 30,
     fontSize: 23,
     padding: 10,
     color: 'black',
-    backgroundColor: 'grey',
-  
+    backgroundColor: 'grey'
   },
+  pathName: {
+    // direction: 'rtl',
+    // flexDirection: 'row',
+    // flex: 1,
+    backgroundColor: 'white',
+    fontStyle: 'bold',
+    width: '100%',
+    color: 'black',
+    fontSize: 30,
+    fontWeight: '700',
+    paddingHorizontal: 5,
+    alignSelf: 'center'
+  },
+  uploadIcon: {
+    flex: 2,
+    //paddingHorizontal: 200,
+  },
+  headerContainer: {
+
+  }
 })

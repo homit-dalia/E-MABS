@@ -1,26 +1,33 @@
-import React from 'react'
+import React, {Component} from 'react'
+import { View, Button, Text } from 'react-native';
+import { createAppContainer } from "react-navigation";
 
 import {NavigationContainer} from '@react-navigation/native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import Favourites1Screen from '../screens/Favourites1Screen'
-import Favourites2Screen from '../screens/Favourites2Screen'
-import AddScreen from '../screens/AddScreen'
-import SharedScreen from '../screens/SharedScreen'
-import AccountScreen from '../screens/AccountScreen'
-import { Dimensions } from 'react-native'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
+import Favourites1Screen from './Favourites1Screen'
+import Favourites2Screen from './Favourites2Screen'
+import AddScreen from './AddScreen'
+import SharedScreen from './SharedScreen'
+import AccountScreen from './AccountScreen'
+
+import { Dimensions } from 'react-native'
+import { withNavigation } from 'react-navigation';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const fullScreenWidth = Dimensions.get('window').width;
 
+//change name of All stack screens
+
 function Fav1StackScreen() {
     return(
         <Stack.Navigator>
-            <Stack.Screen name='Fav 1' component={Favourites1Screen}/>
+            <Stack.Screen options={{ headerShown: false }}name='Fav 1 Stack' component={Favourites1Screen}/>
         </Stack.Navigator>
     )
 }
@@ -28,7 +35,7 @@ function Fav1StackScreen() {
 function Fav2StackScreen() {
   return(
       <Stack.Navigator>
-          <Stack.Screen name='Fav 1' component={Favourites2Screen}/>
+          <Stack.Screen options={{ headerShown: false }}name='Fav 2 Stack' component={Favourites2Screen}/>
       </Stack.Navigator>
   )
 }
@@ -36,7 +43,7 @@ function Fav2StackScreen() {
 function AddStackScreen() {
   return(
       <Stack.Navigator>
-          <Stack.Screen name='Fav 1' component={AddScreen}/>
+          <Stack.Screen options={{ headerShown: false }}name='Add Stack' component={AddScreen}/>
       </Stack.Navigator>
   )
 }
@@ -44,7 +51,7 @@ function AddStackScreen() {
 function SharedStackScreen() {
   return(
       <Stack.Navigator>
-          <Stack.Screen name='Fav 1' component={SharedScreen}/>
+          <Stack.Screen options={{ headerShown: false }}name='Shared Stack' component={SharedScreen}/>
       </Stack.Navigator>
   )
 }
@@ -52,17 +59,16 @@ function SharedStackScreen() {
 function AccountStackScreen() {
   return(
       <Stack.Navigator>
-          <Stack.Screen name='Fav 1' component={AccountScreen}/>
+          <Stack.Screen options={{ headerShown: false }}name='Account Stack' component={AccountScreen}/>
       </Stack.Navigator>
   )
 }
 
+export default class NavigationHome extends Component {
 
-
-
-export default function Navigation() {
-    return (
-      <NavigationContainer>
+  render(){
+  return (
+    <NavigationContainer>
       <Tab.Navigator 
       screenOptions={({route})=> ({
         tabBarIcon: ({focused, size, colour}) => {
@@ -100,6 +106,7 @@ export default function Navigation() {
         <Tab.Screen name='Shared' component={SharedStackScreen}/>
         <Tab.Screen name='Account' component={AccountStackScreen}/>
       </Tab.Navigator>
-     </NavigationContainer>
+      </NavigationContainer>
     )
 }
+};

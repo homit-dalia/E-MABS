@@ -1,9 +1,13 @@
+import 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
 import { Image, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { auth } from '../firebase'
 
-import Navigation from '../components/Navigation'
+import NaviHome from './NavigationHome'
+
+
+
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('')
@@ -11,9 +15,7 @@ const LoginScreen = () => {
 
   const navigation = useNavigation()
 
-  const handleGoToBottomTab = () =>{
-    navigation.replace()
-  }
+ 
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -80,7 +82,7 @@ const LoginScreen = () => {
           <Text style={styles.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={handleGoToBottomTab}
+          onPress={()=>{this.props.navigation.navigate('NavigationHome')}}
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={styles.buttonOutlineText}>Test</Text>
