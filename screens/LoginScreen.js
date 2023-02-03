@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Image, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { auth } from '../firebase'
 
-import NaviHome from './NavigationHome'
+import App from '../App'
 
 
 

@@ -1,4 +1,4 @@
-import firebase from '@react-native-firebase/app';
+import * as firebase from 'firebase';
 
 import database from '@react-native-firebase/database'
 import storage from '@react-native-firebase/storage'

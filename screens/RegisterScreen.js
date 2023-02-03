@@ -57,7 +57,7 @@ const RegisterScreen = () => {
     
 
   return (
-    <KeyboardAvoidingView  style={styles.container}>
+    <KeyboardAvoidingView  style={styles.container} behavior="padding">
         <View>
              <Text style={styles.guidingText}>Enter your Name :</Text>
         <TextInput

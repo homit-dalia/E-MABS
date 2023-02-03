@@ -15,10 +15,10 @@ import firebaseSetup from '../firebase'
 const Folders = (props) => {
 
   //fix this line
-  //const { database, storage } = firebaseSetup()
+  
   
   const navigation = useNavigation()
-  
+  const { database, storage } = firebaseSetup()
   async function chooseFile() {
     try {
       const file = await DocumentPicker.pickSingle({
