@@ -1,24 +1,21 @@
-import { useNavigation } from '@react-navigation/core'
+import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import {
   SafeAreaView, Right, Header, Container, Body, Title, FlatList, KeyboardAvoidingView,
   ListViewBase, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View
 } from 'react-native'
-import { auth } from '../firebase'
 import DocumentPicker from 'react-native-document-picker'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import RNFetchBlob from 'rn-fetch-blob'
-import firebaseSetup from '../firebase'
+import { fb } from '../firebase'
+import { getStorage } from "firebase/storage";
+
 
 
 const Folders = (props) => {
-
   //fix this line
-  
-  
   const navigation = useNavigation()
-  const { database, storage } = firebaseSetup()
   async function chooseFile() {
     try {
       const file = await DocumentPicker.pickSingle({
@@ -32,7 +29,10 @@ const Folders = (props) => {
       );
       const path = await normalizePath(file.uri)
       const result = await RNFetchBlob.fs.readFile(path, 'base64')
-      uploadFileToFirebaseStorage(result, file);
+      //initialize firebase
+      console.log('firebase app : ', fb)
+      //upload file
+      uploadFileToFirebaseStorage(fb, result, file);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
 
@@ -56,35 +56,44 @@ const Folders = (props) => {
     return path;
   }
 
-  async function uploadFileToFirebaseStorage(result, file) {
-    const uploadTask = storage().ref(`allFiles/${file.name}`.putString(result, 'base64', { contentType: file.type }));
-
-    uploadTask.on('state_changed',
-      (snapshot) => {
-        // Observe state change events such as progress, pause, and resume
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload is ' + progress + '% done');
-        switch (snapshot.state) {
-          case 'paused':
-            console.log('Upload is paused');
-            break;
-          case 'running':
-            console.log('Upload is running');
-            break;
-        }
-      },
-      (error) => {
-        // Handle unsuccessful uploads
-      },
-      () => {
-        // Handle successful uploads on complete
-        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log('File available at', downloadURL);
-        });
-      }
-    );
+  async function uploadFileToFirebaseStorage(fb, result, file) {
+    let uploadTask;
+    try {
+      const storage = getStorage(fb)
+      console.log('uploadFileToFirebaseStorage : storage', storage)
+      // uploadTask = storage
+      //   .ref(`allFiles/${file.name}`)
+      //   .putString(result, undefined, {contentType: file.type});
+    } catch (error) {
+      console.error('uploadFileToFirebaseStorage', error)
+    }
+    // uploadTask.on('state_changed',
+    //   (snapshot) => {
+    //     // Observe state change events such as progress, pause, and resume
+    //     // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+    //     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    //     console.log('Upload is ' + progress + '% done');
+    //     switch (snapshot.state) {
+    //       case 'paused':
+    //         console.log('Upload is paused');
+    //         break;
+    //       case 'running':
+    //         console.log('Upload is running');
+    //         break;
+    //     }
+    //   },
+    //   (error) => {
+    //     // Handle unsuccessful uploads
+    //     console.error(error);
+    //   },
+    //   () => {
+    //     // Handle successful uploads on complete
+    //     // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+    //     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+    //       console.log('File available at', downloadURL);
+    //     });
+    //   }
+    // );
 
   }
 

@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler'
-import { useNavigation } from '@react-navigation/core'
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react'
 import { Image, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { auth } from '../firebase'
@@ -14,8 +14,8 @@ const LoginScreen = () => {
   const [password, setPassword] = useState('')
 
   const navigation = useNavigation()
-
- 
+  console.log(navigation)
+  
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {

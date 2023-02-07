@@ -67,6 +67,7 @@ function AccountStackScreen() {
 export default class NavigationHome extends Component {
 
   render(){
+    console.log("NavigationHome----");
   return (
     <NavigationContainer>
       <Tab.Navigator 

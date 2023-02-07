@@ -12,13 +12,17 @@ const firebaseConfig = {
   appId: "1:36686209163:web:01d2bd5537dd43185e748e"
 };
 
-let app;
-if (firebase.apps.length === 0) {
-  app = firebase.initializeApp(firebaseConfig);
-} else {
-  app = firebase.app()
+const init = () => {
+  let app;
+  console.log(`init : ${firebase.apps.length}`)
+  if (firebase.apps.length === 0) {
+    app = firebase.initializeApp(firebaseConfig);
+  } else {
+    app = firebase.app()
+  }
+  return app;
 }
-
+const fb = init()
 const auth = firebase.auth()
 
-export { firebase ,auth, database, storage };
+export { firebase, auth, database, storage, fb };

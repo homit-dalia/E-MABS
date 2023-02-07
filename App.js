@@ -10,7 +10,7 @@ const App = createSwitchNavigator({
   LoginScreen: {screen: LoginScreen},
   },
   {
-    initialRouteName: 'NavigationHome',
+    initialRouteName: 'NavigationLogin',
   }
 );
 
