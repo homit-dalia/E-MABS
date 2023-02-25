@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler'
-import { useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react'
 import { Image, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { auth } from '../firebase'
@@ -52,7 +52,7 @@ const LoginScreen = () => {
       <View style={styles.inputContainer}>
          {/* <Image style={styles.iconLogo}
          source={require("../images/emabs_icon.png")}/> */}
-        <Text style={styles.text}>E-MABS</Text> 
+        <Text style={styles.text}>Welcome to E-MABS</Text> 
         <TextInput
           placeholder="Email"
           value={email}
@@ -144,15 +144,14 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
-    marginBottom: 100,
+    marginBottom: 50,
     fontWeight: 'bold',
-
-    fontSize: 40,
+    fontSize: 30,
     color: '#063970',
   },
   textBottom: {
-    marginTop: 80,
-    fontSize: 14,
+    marginTop: 50,
+    fontSize: 12,
     color: 'white',
   },
   iconLogo:{

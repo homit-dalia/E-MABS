@@ -1,7 +1,5 @@
 import * as firebase from 'firebase';
 
-import database from '@react-native-firebase/database'
-import storage from '@react-native-firebase/storage'
 
 const firebaseConfig = {
   apiKey: "AIzaSyCWdJZY6-dl_flmW6aXA6yahc1Yd6G8dIc",
@@ -11,18 +9,13 @@ const firebaseConfig = {
   messagingSenderId: "36686209163",
   appId: "1:36686209163:web:01d2bd5537dd43185e748e"
 };
-
-const init = () => {
-  let app;
-  console.log(`init : ${firebase.apps.length}`)
-  if (firebase.apps.length === 0) {
-    app = firebase.initializeApp(firebaseConfig);
-  } else {
-    app = firebase.app()
-  }
-  return app;
+let app;
+if (firebase.apps.length === 0) {
+  app = firebase.initializeApp(firebaseConfig);
+} else {
+  app = firebase.app()
 }
-const fb = init()
+
 const auth = firebase.auth()
 
-export { firebase, auth, database, storage, fb };
+export { firebase ,auth};

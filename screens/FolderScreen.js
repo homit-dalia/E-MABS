@@ -8,7 +8,7 @@ import DocumentPicker from 'react-native-document-picker'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import RNFetchBlob from 'rn-fetch-blob'
-import { fb } from '../firebase'
+import { auth } from '../firebase'
 import { getStorage } from "firebase/storage";
 
 
