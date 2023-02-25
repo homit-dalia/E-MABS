@@ -1745,6 +1745,11 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@dhairyasharma/react-native-encryption@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@dhairyasharma/react-native-encryption/-/react-native-encryption-1.0.0.tgz#8edbe63bedef729f5eeab5897c55bae396ea8d54"
+  integrity sha512-Ke5rWJSGRP5DoMpz1HRYGwLCGCvljgSekdnu53SOGgY41i+5LVHs3KSOj9cLmUjuWMc67fiq19Fq6q5CviNBew==
+
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
   resolved "https://registry.npmjs.org/@egjs/hammerjs/-/hammerjs-2.0.17.tgz"
