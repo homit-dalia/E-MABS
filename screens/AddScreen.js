@@ -11,22 +11,14 @@ const password = "1234"
 
 async function encryptFile(file) {
 
-  // RNEncryptionModule.encryptText(
-  //   plainText,
-  //   password
-  // ).then((res) => {
-  //   if (res.status == "success") {
-  //     console.log("Successfully Encrypted the File")
-  //     console.log(res.encryptedText)
-  //     decryptFile(res)
-  //   } else {
-  //     Alert.alert("Error", res);
-  //   }
-  // }).catch((err) => {
-  //   console.log(err);
-  // });
-
   const newPath = getPath(file.uri)
+
+  //create a new file path to store a temp file to be uploaded.
+  //Use AsyncStorage or LocalStorage
+
+  newFilePath = newPath + 'e' //this doesn't work
+  console.log(`Old Path = ${newPath}, New Path (encrpted) = ${newFilePath}`)
+
   RNEncryptionModule.encryptFile(
     newPath,
     outputEncryptedFilePath,
@@ -34,6 +26,7 @@ async function encryptFile(file) {
   ).then((res) => {
     if (res.status == "success") {
       console.log("success", res)
+      uploadImage(file, outputEncryptedFilePath)
     } else {
       console.log("error", res);
     }
@@ -72,7 +65,8 @@ const AddScreen = () => {
       });
 
       console.log(file);
-      uploadImage(file)
+      encryptFile(file)
+
 
     } catch (error) {
       if (DocumentPicker.isCancel(error))
@@ -82,11 +76,11 @@ const AddScreen = () => {
     }
   };
 
-  const uploadImage = async (file) => {
+  const uploadImage = async (file, outputEncryptedFilePath) => {
 
     console.log("Inside upload Image function")
     const reference = storage().ref(file.name)
-    const newPath = getPath(file.uri)
+    const newPath = getPath(outputEncryptedFilePath)
     const pathToFile = newPath;
     reference.putFile(pathToFile);
 

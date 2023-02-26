@@ -13,6 +13,7 @@
     "@aws-sdk/client-s3": "^3.266.0",
     "@dhairyasharma/react-native-encryption": "^1.0.0",
     "@flyerhq/react-native-android-uri-path": "^2.3.0",
+    "@react-native-async-storage/async-storage": "^1.17.11",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-firebase/app": "^17.3.1",
     "@react-native-firebase/database": "^16.5.0",

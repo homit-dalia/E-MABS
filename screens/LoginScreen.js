@@ -1,33 +1,16 @@
 import 'react-native-gesture-handler'
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react'
-import { Image, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import {useNavigation } from '@react-navigation/native';
+import React, {  useState } from 'react'
+import {  KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { auth } from '../firebase'
-
-import App from '../App'
-
-
-
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [user, setUser] = useState('')
 
   const navigation = useNavigation()
   console.log(navigation)
-  
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        navigation.replace("Folder")
-      }
-    })
-
-    return unsubscribe
-  }, [])
-
-  
 
   const handleLogin = () => {
     auth
@@ -35,6 +18,7 @@ const LoginScreen = () => {
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Logged in with:', user.email);
+        setUser(user)
       })
       .catch(error => alert(error.message))
   }
@@ -81,12 +65,7 @@ const LoginScreen = () => {
         >
           <Text style={styles.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={()=>{this.props.navigation.navigate('NavigationHome')}}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonOutlineText}>Test</Text>
-        </TouchableOpacity>
+
         <Text style={styles.textBottom}>One solution for all your storage needs</Text>
       </View>
     </KeyboardAvoidingView>
@@ -94,6 +73,7 @@ const LoginScreen = () => {
 }
 
 export default LoginScreen
+
 
 const styles = StyleSheet.create({
   container: {
