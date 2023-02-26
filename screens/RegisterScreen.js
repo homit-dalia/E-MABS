@@ -2,9 +2,6 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingVi
 import React, { useRef, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native'
 import { auth } from '../firebase'
-// import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
-// import { firebaseConfig } from '../firebase';
-// import firebase from 'firebase/compat/app';
 
 const RegisterScreen = () => {
 
@@ -50,9 +47,7 @@ const RegisterScreen = () => {
       console.log('Invalid code.');
     }
   }
-
-
-
+  
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <View>

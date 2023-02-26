@@ -9,10 +9,22 @@ import { auth } from './firebase'
 import NavigationHome from './screens/NavigationHome';
 import NavigationLogin from './screens/NavigationLogin';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 Stack = createNativeStackNavigator()
 
 function App() {
+
+  const storeStringData = async (key, value) => {
+    try {
+      await AsyncStorage.setItem(key, value)
+      console.log(`Successfully stored ${key} : ${value}`)
+    } catch (e) {
+      console.log("Stored UID Successfully")
+      // saving error
+    }
+  }
+
 
   console.log(auth)
   const [initializing, setInitializing] = useState(true);
@@ -21,6 +33,7 @@ function App() {
   // Handle user state changes
   function onAuthStateChanged(user) {
     setUser(user);
+    storeStringData("userID", user.uid)
     if (initializing) setInitializing(false);
   }
 
