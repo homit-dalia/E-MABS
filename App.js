@@ -33,7 +33,10 @@ function App() {
   // Handle user state changes
   function onAuthStateChanged(user) {
     setUser(user);
-    storeStringData("userID", user.uid)
+    if (user){
+      storeStringData("userID", user.uid)
+    }
+    else storeStringData("userID", null)
     if (initializing) setInitializing(false);
   }
 

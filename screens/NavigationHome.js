@@ -15,6 +15,7 @@ import { Dimensions } from 'react-native'
 import {listFiles} from './Favourites1Screen'
 
 
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -22,7 +23,7 @@ const fullScreenWidth = Dimensions.get('window').width;
 
 async function fetchListFromFirebase() {
   console.log("Fetching list from firebase db")
-  listFiles()
+  Favourites1Screen.listFiles()
 }
 
 function Fav1StackScreen() {
@@ -32,6 +33,7 @@ function Fav1StackScreen() {
         name="Favourites"
         component={Favourites1Screen}
         options={{
+          
           headerRight: () => (
             <TouchableOpacity
               onPress={fetchListFromFirebase}>
@@ -90,28 +92,29 @@ export default class NavigationHome extends Component {
             let iconName;
             if (route.name === "Fav 1") {
               iconName = focused ? 'bookmark' : 'bookmark-outline';
-              color = focused ? '#5e5c5a' : '#9e9b98';
+              color = focused ? '#5968ab' : '#9e9b98';
             } else if (route.name === "Fav 2") {
               iconName = focused ? 'bookmarks' : 'bookmarks-outline';
-              color = focused ? '#5e5c5a' : '#9e9b98';
+              color = focused ? '#5968ab' : '#9e9b98';
 
             } else if (route.name === "Add") {
               iconName = focused ? 'add-circle' : 'add-circle-outline';
-              color = focused ? '#5e5c5a' : '#9e9b98';
+              color = focused ? '#5968ab' : '#9e9b98';
               size = 45;
             }
             else if (route.name === "Shared") {
               iconName = focused ? 'share-social' : 'share-social-outline';
-              color = focused ? '#5e5c5a' : '#9e9b98';
+              color = focused ? '#5968ab' : '#9e9b98';
             }
             else if (route.name === "Account") {
               iconName = focused ? 'key' : 'key-outline';
-              color = focused ? '#5e5c5a' : '#9e9b98';
+              color = focused ? '#5968ab' : '#9e9b98';
             }
             size = focused ? size + 10 : size;
             return <Ionicons name={iconName} color={color} size={size} />;
           },
           tabBarShowLabel: false,
+          tabBarHideOnKeyboard: true,
 
           // tabBarInactiveBackgroundColor: '#ebe7dd',
           // tabBarActiveBackgroundColor: "#dbd7ca",
