@@ -11,7 +11,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 var listSeperator = '-'
-for (let index = 0; index < parseInt(windowWidth * 0.1412); index++) {
+for (let index = 0; index < parseInt(windowWidth * 0.135); index++) {
   listSeperator = listSeperator + '-';
 
 }
@@ -30,6 +30,7 @@ const getStringData = async (key) => {
   }
 }
 
+
 var fileCount = 0
 const Favourites1Screen = () => {
 
@@ -39,8 +40,12 @@ const Favourites1Screen = () => {
     const reference = storage().ref(await getStringData("userID"));
     listFilesAndDirectories(reference).then(() => {
       console.log('Finished listing');
+
+      //setTimeout(listFiles, 10000);
     });
   }
+
+  //setInterval(listFiles, 5000)
 
   function removeUIDFromFilePath(path) {
     newArray = path.split("/")
@@ -88,7 +93,7 @@ const Favourites1Screen = () => {
   }
 
   function getDocumentType(path) {
-    if (path.includes(".jpeg") || path.includes(".jpg") || path.includes(".png")) {
+    if (path.includes(".jpeg") || path.includes(".jpg") || path.includes(".png") || path.includes(".raw") || path.includes(".bmp") || path.includes(".cr2")) {
       return "image"
     }
     else if (path.includes(".pdf") || path.includes(".docx") || path.includes(".txt")) {
@@ -105,24 +110,48 @@ const Favourites1Screen = () => {
     }
   }
 
-  function logFileList() {
+  function searchFiles() {
 
-    fileList.forEach(ref => {
-      console.log(ref.name);
-    })
   }
-
+  //setInterval(listFiles, 5000)
   return (
 
     <View style={styles.container}>
+      <View>
+        <View style={styles.headerContainer}>
+          <View style={styles.headerLeft}>
+            <Text style={styles.headerText}>Favourites</Text>
+          </View>
+          <View style={styles.headerButtonsContainer}>
+
+            <TouchableOpacity onPress={listFiles} style={styles.headerButtons}>
+              <Ionicons name='reload-outline' color={'black'} size={30} />
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={searchFiles}>
+              <Ionicons name='search-sharp' color={'black'} size={30} />
+            </TouchableOpacity>
+
+          </View>
+
+        </View>
+
+      </View>
+
+
+
       <View style={styles.itemLeft}>
-        <TouchableOpacity style={styles.fileViewButton} onPress={listFiles}>
-          <Text style={styles.fileViewButtonText}>Update list</Text>
-        </TouchableOpacity>
+
 
         <FlatList
           keyExtractor={(item) => item.id}
-          ItemSeparatorComponent={<Text style={styles.fileListSeperator}> {listSeperator} </Text>}
+
+          ItemSeparatorComponent={
+
+            <View style={styles.fileListSeperatorContainer}>
+              <Text style={styles.fileListSeperator}> {listSeperator} </Text>
+            </View>
+          }
           data={fileList}
           renderItem={({ item }) => (
             <TouchableOpacity style={styles.fileViewButton}>
@@ -165,20 +194,51 @@ const styles = StyleSheet.create({
     fontSize: 14,
     //maxWidth: "80%",
     alignSelf: 'center',
-
+    maxWidth: "85%" ,
+    maxHeight: "80%",
   },
-  fileMetadata:{
+  fileMetadata: {
     alignSelf: 'auto',
     flexDirection: 'column'
+  },
+  fileListSeperatorContainer: {
+    backgroundColor: 'white',
   },
   fileListSeperator: {
     fontWeight: "700",
     fontSize: 15,
     alignSelf: 'flex-end',
-  
+    backgroundColor: 'white',
   },
   fileListIcon: {
     alignSelf: 'flex-start',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    marginRight: 7,
+    marginLeft: 5,
   },
+
+  //header
+  headerContainer: {
+    backgroundColor: '#f2f2f2',
+    height: 55,
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between'
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: '500',
+    marginTop: 15,
+    marginLeft: 19,
+    color: 'black'
+  },
+  headerButtonsContainer: {
+    alignSelf: 'flex-end',
+    marginRight: 20,
+    marginBottom: 10,
+    flexDirection: 'row',
+  },
+  headerButtons: {
+    marginRight: 20,
+  }
 })

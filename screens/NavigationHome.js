@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { Button, TouchableOpacity } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -12,37 +12,35 @@ import SharedScreen from './SharedScreen'
 import AccountScreen from './AccountScreen'
 
 import { Dimensions } from 'react-native'
-import {listFiles} from './Favourites1Screen'
-
-
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const fullScreenWidth = Dimensions.get('window').width;
 
-async function fetchListFromFirebase() {
-  console.log("Fetching list from firebase db")
-  Favourites1Screen.listFiles()
-}
 
-function Fav1StackScreen() {
+function Fav1StackScreen(props) {
+
+
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Favourites"
         component={Favourites1Screen}
         options={{
-          
+          headerShown: false, 
+
+          //not required
           headerRight: () => (
             <TouchableOpacity
-              onPress={fetchListFromFirebase}>
+            
+            >
               <Ionicons name='reload-outline' color={'black'} size={25} />
-            </TouchableOpacity>            
+            </TouchableOpacity>
           ),
           headerSearchBarOptions: true,
-          
-          
+          // can remove code up until here
+
         }}
       />
     </Stack.Navigator>
@@ -60,7 +58,7 @@ function Fav2StackScreen() {
 function AddStackScreen() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name='Add Button' component={AddScreen} />
+      <Stack.Screen name='Add Button' options={{ headerShown: false }} component={AddScreen} />
     </Stack.Navigator>
   )
 }
@@ -80,6 +78,7 @@ function AccountStackScreen() {
     </Stack.Navigator>
   )
 }
+
 
 export default class NavigationHome extends Component {
 
