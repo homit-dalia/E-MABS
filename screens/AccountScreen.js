@@ -1,13 +1,13 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
+import React, { useContext, createContext, useState } from 'react'
 import { auth } from '../firebase'
-import { useNavigation } from '@react-navigation/native'
 
 
 
 const AccountScreen = () => {
 
-  const navigation = useNavigation()
+  var user = auth.currentUser;
+  console.log(user)
   const signOutUser = () => {
     console.log("In sign out function inside account.js")
     auth
@@ -20,7 +20,30 @@ const AccountScreen = () => {
 
   return (
     <View>
-      <Text>AccountScreen</Text>
+      <View >
+
+        <View style={styles.userInfoContainerImageName}>
+          <View style={styles.userImageContainer}>
+            {user.photoURL != null ? (<Image style={styles.userImage} source={{ uri: user.photoURL }} />) : <Image style={styles.userImage} source={require('../sourceImages/human_icon.png')} />}
+          </View>
+          <View style={styles.userFullNameContainer}>
+            {user.displayName != null ? <Text style={styles.userFullNameText}>{user.displayName} </Text> : null}
+          </View>
+
+         
+        </View>
+        <View>
+            <Text style={styles.userMetadata}>
+              Account created on : {user.metadata.creationTime}
+            </Text>
+            <Text style={styles.userMetadata}>
+              Last sign in : {user.metadata.lastSignInTime}
+            </Text>
+          </View>
+      </View>
+
+
+
       <TouchableOpacity
         onPress={signOutUser}
         style={styles.button}
@@ -47,5 +70,38 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     alignSelf: 'center'
+  },
+
+  userInfoContainer: {
+    backgroundColor: '#c6d9ec',
+  },
+
+  userInfoContainerImageName: {
+    flexDirection: 'row',
+    backgroundColor: '#c6d9ec',
+
+  },
+  userImageContainer: {
+    margin: 20,
+
+  },
+  userImage: {
+    width: 80,
+    height: 80,
+  },
+  userFullNameContainer: {
+    //backgroundColor: 'black',
+    alignSelf: 'center',
+  },
+  userFullNameText: {
+    color: 'black',
+    fontSize: 25,
+    fontWeight: '500',
+  },
+  userMetadata: {
+    marginTop: 10,
+    marginLeft: 10,
+    fontSize: 13,
+    maxWidth: '100%',
   },
 })

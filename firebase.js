@@ -1,6 +1,7 @@
 import * as firebase from 'firebase';
 
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyCWdJZY6-dl_flmW6aXA6yahc1Yd6G8dIc",
   authDomain: "fir-auth-embs.firebaseapp.com",

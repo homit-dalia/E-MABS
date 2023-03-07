@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react'
-import { Button, TouchableOpacity } from 'react-native'
+import { Button, TouchableOpacity, Text, StyleSheet } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
@@ -10,8 +10,13 @@ import Favourites2Screen from './Favourites2Screen'
 import AddScreen from './AddScreen'
 import SharedScreen from './SharedScreen'
 import AccountScreen from './AccountScreen'
+import FileOpen from './FileOpen'
 
 import { Dimensions } from 'react-native'
+
+import { auth } from '../firebase'
+
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -19,7 +24,21 @@ const Tab = createBottomTabNavigator();
 const fullScreenWidth = Dimensions.get('window').width;
 
 
-function Fav1StackScreen(props) {
+async function updateProfile() {
+  const update = {
+    displayName: "Test User 123",
+    photoURL: null,
+  };
+
+  await auth.currentUser.updateProfile(update);
+
+  console.log("Updated User Credentials")
+  console.log(auth)
+}
+
+
+
+function Fav1StackScreen() {
 
 
   return (
@@ -28,12 +47,12 @@ function Fav1StackScreen(props) {
         name="Favourites"
         component={Favourites1Screen}
         options={{
-          headerShown: false, 
+          headerShown: false,
 
           //not required
           headerRight: () => (
             <TouchableOpacity
-            
+
             >
               <Ionicons name='reload-outline' color={'black'} size={25} />
             </TouchableOpacity>
@@ -43,6 +62,7 @@ function Fav1StackScreen(props) {
 
         }}
       />
+      <Stack.Screen name="File Open" component={FileOpen} options={{headerShown: true}}/> 
     </Stack.Navigator>
   );
 }
@@ -74,7 +94,16 @@ function SharedStackScreen() {
 function AccountStackScreen() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name='Settings' component={AccountScreen} />
+      <Stack.Screen name='Settings' component={AccountScreen}
+        options={{
+
+          //not required
+          headerRight: () => (
+            <TouchableOpacity onPress={updateProfile}>
+              <Text style={styles.headerButtons}>Edit</Text>
+            </TouchableOpacity>
+          ),
+        }} />
     </Stack.Navigator>
   )
 }
@@ -137,3 +166,12 @@ export default class NavigationHome extends Component {
     )
   }
 };
+
+const styles = StyleSheet.create({
+  headerButtons: {
+    fontSize: 17,
+    //backgroundColor: 'blue',
+    //fontWeight: '500',
+    color: '#0782F9'
+  },
+})

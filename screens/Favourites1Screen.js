@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, createContext } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native'
 import { Dimensions } from 'react-native';
 
@@ -6,9 +6,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import storage from '@react-native-firebase/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+
+var refreshOnOpen = 0
 
 var listSeperator = '-'
 for (let index = 0; index < parseInt(windowWidth * 0.135); index++) {
@@ -16,7 +19,7 @@ for (let index = 0; index < parseInt(windowWidth * 0.135); index++) {
 
 }
 
-const getStringData = async (key) => {
+export const getStringData = async (key) => {
   try {
     const value = await AsyncStorage.getItem(key)
     console.log(`Fetched ${key} : ${value} from AsynStorage`)
@@ -30,9 +33,16 @@ const getStringData = async (key) => {
   }
 }
 
+export const UserContext = createContext();
 
 var fileCount = 0
 const Favourites1Screen = () => {
+
+  const navigation = useNavigation()
+  if (refreshOnOpen == 0) {
+    listFiles()
+    refreshOnOpen++
+  }
 
   const [fileList, setFileList] = useState([])
 
@@ -70,12 +80,9 @@ const Favourites1Screen = () => {
     return reference.list({ pageToken }).then(result => {
       // Loop over each item
       result.items.forEach(ref => {
-        console.log(ref.path);
+        //console.log(ref.path);
         newPathWithoutUID = removeUIDFromFilePath(ref.path)
-
-        temp3 = checkFileExists(newPathWithoutUID)
-        console.log(temp3)
-        if (temp3) {
+        if (checkFileExists(newPathWithoutUID)) {
           setFileList(fileList => [...fileList, { name: newPathWithoutUID, id: `${fileCount}` }])
           fileCount++
           console.log("Stored file " + newPathWithoutUID)
@@ -111,6 +118,11 @@ const Favourites1Screen = () => {
   }
 
   function searchFiles() {
+
+  }
+
+  function handleOpenFile(fileName) {
+    navigation.navigate('File Open',{ content: fileName })
 
   }
   //setInterval(listFiles, 5000)
@@ -154,7 +166,7 @@ const Favourites1Screen = () => {
           }
           data={fileList}
           renderItem={({ item }) => (
-            <TouchableOpacity style={styles.fileViewButton}>
+            <TouchableOpacity style={styles.fileViewButton} onPress={() => handleOpenFile(item.name)}>
               <View>
                 <Ionicons name={
                   getDocumentType(item.name)
@@ -194,7 +206,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     //maxWidth: "80%",
     alignSelf: 'center',
-    maxWidth: "85%" ,
+    maxWidth: "85%",
     maxHeight: "80%",
   },
   fileMetadata: {

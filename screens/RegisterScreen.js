@@ -11,43 +11,28 @@ const RegisterScreen = () => {
   const [phoneNumber, setPhoneNumber] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  async function updateCredentials() {
+    const update = {
+      displayName: name,
+      photoURL: null,
+    };
+
+    await auth.currentUser.updateProfile(update);
+  }
   
-  const navigation = useNavigation()
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        navigation.replace("Folder")
-      }
-    })
-
-    return unsubscribe
-  }, [])
-
-
   const handleSignUp = () => {
     auth
       .createUserWithEmailAndPassword(email, password)
       .then(userCredentials => {
+        updateCredentials()
         const user = userCredentials.user;
         console.log('Registered with:', user.email);
       })
       .catch(error => alert(error.message))
   }
 
-  const signInWithPhoneNumber = async (phoneNumber) => {
-    const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-    setConfirm(confirmation);
-  }
 
-  const confirmCode = async () => {
-    try {
-      await confirm.confirm(code);
-    } catch (error) {
-      console.log('Invalid code.');
-    }
-  }
-  
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <View>

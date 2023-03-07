@@ -2075,9 +2075,9 @@
   "version" "2.3.0"
 
 "@grpc/grpc-js@^1.3.2":
-  "integrity" "sha512-dRAWjRFN1Zy9mzPNLkFFIWT8T6C9euwluzCHZUKuhC+Bk3MayNPcpgDRyG+sg+n2sitEUySKxUynirVpu9ItKw=="
-  "resolved" "https://registry.npmjs.org/@grpc/grpc-js/-/grpc-js-1.8.7.tgz"
-  "version" "1.8.7"
+  "integrity" "sha512-f/xC+6Z2QKsRJ+VSSFlt4hA5KSRm+PKvMWV8kMPkMgGlFidR6PeIkXrOasIY2roe+WROM6GFQLlgDKfeEZo2YQ=="
+  "resolved" "https://registry.npmjs.org/@grpc/grpc-js/-/grpc-js-1.8.11.tgz"
+  "version" "1.8.11"
   dependencies:
     "@grpc/proto-loader" "^0.7.0"
     "@types/node" ">=12.12.47"
@@ -2094,9 +2094,9 @@
     "yargs" "^16.2.0"
 
 "@grpc/proto-loader@^0.7.0":
-  "integrity" "sha512-MnWjkGwqQ3W8fx94/c1CwqLsNmHHv2t0CFn+9++6+cDphC1lolpg9M2OU0iebIjK//pBNX9e94ho+gjx6vz39w=="
-  "resolved" "https://registry.npmjs.org/@grpc/proto-loader/-/proto-loader-0.7.4.tgz"
-  "version" "0.7.4"
+  "integrity" "sha512-mfcTuMbFowq1wh/Rn5KQl6qb95M21Prej3bewD9dUQMurYGVckGO/Pbe2Ocwto6sD05b/mxZLspvqwx60xO2Rg=="
+  "resolved" "https://registry.npmjs.org/@grpc/proto-loader/-/proto-loader-0.7.5.tgz"
+  "version" "0.7.5"
   dependencies:
     "@types/long" "^4.0.1"
     "lodash.camelcase" "^4.3.0"
@@ -2633,6 +2633,14 @@
     "@expo/config-plugins" "^5.0.4"
     "opencollective-postinstall" "^2.0.1"
     "superstruct" "^0.6.2"
+
+"@react-native-firebase/auth@^17.3.1":
+  "integrity" "sha512-chMBDaNZ3vZjGdP0gsaR8ChnVZmwEUYGZpLthL0tc8ZOJN12fr113tSSOKSufri3LlksAAvMZNIne6NPFcUgGA=="
+  "resolved" "https://registry.npmjs.org/@react-native-firebase/auth/-/auth-17.3.1.tgz"
+  "version" "17.3.1"
+  dependencies:
+    "@expo/config-plugins" "^5.0.4"
+    "plist" "^3.0.5"
 
 "@react-native-firebase/database@^16.5.0":
   "integrity" "sha512-swQeygaKqkkg5j7zkjlzX/yFEtXktBj+Bm3rPAdVEusTgSndZyK3ul8r2ReI97QCNoMZp8G2zsEhfhKYVBt1iA=="
@@ -7341,9 +7349,9 @@
     "long" "^4.0.0"
 
 "protobufjs@^7.0.0":
-  "integrity" "sha512-hYCqTDuII4iJ4stZqiuGCSU8xxWl5JeXYpwARGtn/tWcKCAro6h3WQz+xpsNbXW0UYqpmTQFEyFWO0G0Kjt64g=="
-  "resolved" "https://registry.npmjs.org/protobufjs/-/protobufjs-7.2.0.tgz"
-  "version" "7.2.0"
+  "integrity" "sha512-++PrQIjrom+bFDPpfmqXfAGSQs40116JRrqqyf53dymUMvvb5d/LMRyicRoF1AUKoXVS1/IgJXlEgcpr4gTF3Q=="
+  "resolved" "https://registry.npmjs.org/protobufjs/-/protobufjs-7.2.2.tgz"
+  "version" "7.2.2"
   dependencies:
     "@protobufjs/aspromise" "^1.1.2"
     "@protobufjs/base64" "^1.1.2"
@@ -8643,12 +8651,7 @@
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.4.1.tgz"
   "version" "2.4.1"
 
-"tslib@^2.1.0":
-  "integrity" "sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA=="
-  "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.4.1.tgz"
-  "version" "2.4.1"
-
-"tslib@^2.3.1":
+"tslib@^2.1.0", "tslib@^2.3.1":
   "integrity" "sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg=="
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.5.0.tgz"
   "version" "2.5.0"

@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler'
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, createContext } from 'react'
 import { StyleSheet } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -13,7 +13,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 Stack = createNativeStackNavigator()
 
+
 function App() {
+
+  const [userFullName, setUserFullName] = useState('')
+
 
   const storeStringData = async (key, value) => {
     try {
@@ -35,6 +39,8 @@ function App() {
     setUser(user);
     if (user){
       storeStringData("userID", user.uid)
+      console.log(user)
+      storeStringData("userFullName", user.displayName)
     }
     else storeStringData("userID", null)
     if (initializing) setInitializing(false);
