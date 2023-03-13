@@ -1,61 +1,56 @@
-import React, { useState, createContext } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import {
+  StyleSheet, Text, View, TouchableOpacity, FlatList, ToastAndroid
+  , AlertIOS
+} from 'react-native'
 import { Dimensions } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import storage from '@react-native-firebase/storage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getStringData } from '../common';
 import { useNavigation } from '@react-navigation/native';
+import { auth } from '../firebase'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-var refreshOnOpen = 0
 
 var listSeperator = '-'
 for (let index = 0; index < parseInt(windowWidth * 0.135); index++) {
   listSeperator = listSeperator + '-';
-
 }
 
-export const getStringData = async (key) => {
-  try {
-    const value = await AsyncStorage.getItem(key)
-    console.log(`Fetched ${key} : ${value} from AsynStorage`)
-    if (value !== null) {
-      // value previously stored
-      return value
-    }
-  } catch (e) {
-    console.log(`Error Fetching AsyncStorage with key '${key}'`)
-    // error reading value
-  }
-}
-
-export const UserContext = createContext();
 
 var fileCount = 0
-const Favourites1Screen = () => {
+var gateKeep = ''
 
-  const navigation = useNavigation()
-  if (refreshOnOpen == 0) {
-    listFiles()
-    refreshOnOpen++
-  }
+
+const Favourites1Screen = ({ navigation }) => {
 
   const [fileList, setFileList] = useState([])
 
+  useEffect(() => {
+    listFiles()
+  }, []);
   async function listFiles() {
     const reference = storage().ref(await getStringData("userID"));
+    gateKeep = await getStringData("userID") + '.metadata'
+
     listFilesAndDirectories(reference).then(() => {
       console.log('Finished listing');
+
+
+      if (Platform.OS === 'android') {
+        ToastAndroid.show("Refreshed !", ToastAndroid.SHORT)
+      } else {
+        AlertIOS.alert("Refreshed!");
+      }
+      //console.warn("All files listed")
 
       //setTimeout(listFiles, 10000);
     });
   }
-
-  //setInterval(listFiles, 5000)
 
   function removeUIDFromFilePath(path) {
     newArray = path.split("/")
@@ -78,20 +73,42 @@ const Favourites1Screen = () => {
 
   function listFilesAndDirectories(reference, pageToken) {
     return reference.list({ pageToken }).then(result => {
-      // Loop over each item
+
+      //for files in the path
+      console.log(result)
       result.items.forEach(ref => {
-        //console.log(ref.path);
         newPathWithoutUID = removeUIDFromFilePath(ref.path)
         if (checkFileExists(newPathWithoutUID)) {
-          setFileList(fileList => [...fileList, { name: newPathWithoutUID, id: `${fileCount}` }])
+          setFileList(fileList => [...fileList, { name: newPathWithoutUID, id: `${fileCount}`, folder: false, encrypted : true }])
           fileCount++
-          console.log("Stored file " + newPathWithoutUID)
+          console.log("Stored File " + newPathWithoutUID)
+          
+          //updateSessionList(newPathWithoutUID)
         }
         else {
-          console.log("Not storing file " + newPathWithoutUID + " as it already exists")
+          console.log("Not storing File " + newPathWithoutUID + " as it already exists")
         }
-
       });
+
+      //for folders in the path
+      result.prefixes.forEach(ref => {
+        newPathWithoutUID = removeUIDFromFilePath(ref.path)
+        console.log(newPathWithoutUID)
+        if (checkFileExists(newPathWithoutUID) && newPathWithoutUID != gateKeep) {
+
+          console.log(newPathWithoutUID)
+          setFileList(fileList => [...fileList, { name: newPathWithoutUID, id: `${fileCount}`, folder: true, encrypted : false }])
+          fileCount++
+          console.log("Stored Folder " + newPathWithoutUID)
+
+          //updateSessionList(newPathWithoutUID)
+
+        }
+        else {
+          console.log("Not storing Folder " + newPathWithoutUID + " as it already exists")
+        }
+      });
+
       if (result.nextPageToken) {
         return listFilesAndDirectories(reference, result.nextPageToken);
       }
@@ -99,21 +116,23 @@ const Favourites1Screen = () => {
     });
   }
 
-  function getDocumentType(path) {
-    if (path.includes(".jpeg") || path.includes(".jpg") || path.includes(".png") || path.includes(".raw") || path.includes(".bmp") || path.includes(".cr2")) {
-      return "image"
-    }
-    else if (path.includes(".pdf") || path.includes(".docx") || path.includes(".txt")) {
-      return "document-text"
-    }
-    else if (path.includes(".mp4") || path.includes(".mkv") || path.includes(".hevc")) {
-      return "videocam"
-    }
-    else if (path.includes("/")) {
+  function getDocumentType(path, folder) {
+    if (folder) {
       return 'folder'
     }
     else {
-      return 'cube'
+      if (path.includes(".jpeg") || path.includes(".jpg") || path.includes(".png") || path.includes(".raw") || path.includes(".bmp") || path.includes(".cr2")) {
+        return "image"
+      }
+      else if (path.includes(".pdf") || path.includes(".docx") || path.includes(".txt")) {
+        return "document-text"
+      }
+      else if (path.includes(".mp4") || path.includes(".mkv") || path.includes(".hevc")) {
+        return "videocam"
+      }
+      else {
+        return 'cube'
+      }
     }
   }
 
@@ -121,13 +140,11 @@ const Favourites1Screen = () => {
 
   }
 
-  function handleOpenFile(fileName) {
-    navigation.navigate('File Open',{ content: fileName })
+  function handleOpenFile(fileName, fileType) {
+    navigation.navigate('File Open', { content: fileName, folder: fileType }) //add code here to call getURL in FileOpen
 
   }
-  //setInterval(listFiles, 5000)
   return (
-
     <View style={styles.container}>
       <View>
         <View style={styles.headerContainer}>
@@ -149,31 +166,27 @@ const Favourites1Screen = () => {
         </View>
 
       </View>
-
-
-
       <View style={styles.itemLeft}>
-
-
         <FlatList
           keyExtractor={(item) => item.id}
-
           ItemSeparatorComponent={
-
             <View style={styles.fileListSeperatorContainer}>
               <Text style={styles.fileListSeperator}> {listSeperator} </Text>
             </View>
           }
           data={fileList}
           renderItem={({ item }) => (
-            <TouchableOpacity style={styles.fileViewButton} onPress={() => handleOpenFile(item.name)}>
-              <View>
-                <Ionicons name={
-                  getDocumentType(item.name)
-                } color='#5968ab' size={25} style={styles.fileListIcon} />
-              </View>
-              <Text style={styles.fileViewButtonText}>{"  " + item.name}</Text>
-            </TouchableOpacity>
+            <View style={styles.fileListContainer}>
+              <TouchableOpacity style={styles.fileViewButton} onPress={() => handleOpenFile(item.name, item.folder)}>
+                <View>
+                  <Ionicons name={
+                    getDocumentType(item.name, item.folder)
+                  } color='#5968ab' size={25} style={styles.fileListIcon} />
+                </View>
+                <Text style={styles.fileViewButtonText}>{"  " + item.name}</Text>
+              </TouchableOpacity>
+
+            </View>
           )}
         />
       </View>
@@ -189,6 +202,7 @@ const styles = StyleSheet.create({
     flex: 1,
     //justifyContent: 'space-between'
   },
+
   fileViewButton: {
 
     width: "100%",
@@ -203,10 +217,10 @@ const styles = StyleSheet.create({
   fileViewButtonText: {
     color: 'black',
     fontWeight: '400',
-    fontSize: 14,
+    fontSize: 15,
     //maxWidth: "80%",
     alignSelf: 'center',
-    maxWidth: "85%",
+    maxWidth: "70%",
     maxHeight: "80%",
   },
   fileMetadata: {

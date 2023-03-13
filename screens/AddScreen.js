@@ -5,13 +5,14 @@ import DocumentPicker from 'react-native-document-picker'
 import storage from '@react-native-firebase/storage';
 import getPath from '@flyerhq/react-native-android-uri-path'
 import RNEncryptionModule from "@dhairyasharma/react-native-encryption"
-import AsyncStorage from '@react-native-async-storage/async-storage'
+
+import { getStringData } from '../common';
+
 import RNFetchBlob from 'rn-fetch-blob'
 import { launchImageLibrary } from 'react-native-image-picker';
-//import RNFetchBlob from "react-native-fetch-blob"
+
 
 var RNFS = require("react-native-fs");
-
 var password = "1234"
 
 const requestStoragePermission = async () => {
@@ -39,8 +40,6 @@ const requestStoragePermission = async () => {
   }
 };
 
-
-
 const AddScreen = () => {
 
   const [inputFilePath, setInputFilePath] = useState("");
@@ -50,7 +49,7 @@ const AddScreen = () => {
   const [decryptFilePath, setDecryptFilePath] = useState("");
   const [decryptFilePassword, setDecryptFilePassword] = useState("");
   const [fileIv, setFileIv] = useState("");
-  const [fileSalt, setFileSalt] =useState("");
+  const [fileSalt, setFileSalt] = useState("");
 
   function encryptFileImagePicker(response) {
 
@@ -70,7 +69,7 @@ const AddScreen = () => {
         console.log(response)
         uploadImage(response.assets[0].fileName, encryptFilePath)
 
-        
+
         Alert.alert("Successful");
       } else {
         Alert.alert("Error", res.error);
@@ -79,18 +78,15 @@ const AddScreen = () => {
     });
   }
 
-  function launchImagePicker() {
-    launchImageLibrary({
-      mediaType: 'mixed',
-    }).then(async (response) => {
+   async function launchImagePicker() {
+     await launchImageLibrary({mediaType: 'mixed'})
+     .then(async (response) => {
       if (response.didCancel && response.assets == null) {
         console.log("Cancelled Image Picker")
       }
       else {
-        if (
-          Platform.OS == "android" &&
-          response.assets[0].uri.startsWith("content://")
-        ) {
+        if (Platform.OS == "android" && response.assets[0].uri.startsWith("content://")) 
+        {
           RNFetchBlob.fs
             .stat(response.assets[0].uri)
             .then((statResult) => {
@@ -99,8 +95,13 @@ const AddScreen = () => {
             .catch((err) => {
               console.log("Error ==>> ", err);
             });
-        } else {
+            console.log("Input File Path = ",inputFilePath)
+
+        } 
+        else 
+        {
           setInputFilePath(response.assets[0].uri);
+          console.log("Input File Path = ",inputFilePath)
         }
 
         setEncryptFilePath(
@@ -114,6 +115,15 @@ const AddScreen = () => {
       }
     })
   }
+
+
+
+
+
+
+
+
+
 
   const chooseDocument = async () => {
     try {
@@ -142,12 +152,12 @@ const AddScreen = () => {
 
     const newPath = getPath(file.uri)
     console.log("Log New path", newPath)
-    requestStoragePermission()
 
     RNFetchBlob.fs
       .stat(file.uri)
       .then((statResult) => {
         setInputFilePath(statResult.path);
+        console.log("Input File path = ", inputFilePath)
       })
       .catch((err) => {
         console.log("Error ==>> ", err);
@@ -158,9 +168,9 @@ const AddScreen = () => {
     console.log("Output File Path just before encrypt function : ", encryptFilePath)
 
 
-    RNEncryptionModule.encryptFile(
+    await RNEncryptionModule.encryptFile(
       inputFilePath,
-      encryptFilePath,
+      "file:///" + encryptFilePath,
       password
     ).then((res) => {
       if (res.status == "success") {
@@ -172,53 +182,18 @@ const AddScreen = () => {
       console.log(err);
     });
 
-    console.log(file)
-    uploadImage(file, encryptFilePath)
-  }
-  async function decryptFile(file) {
-
-    RNEncryptionModule.decryptText(
-      file.encryptedText,
-      password,
-      file.iv,
-      file.salt).then((res) => {
-        if (res.status == "success") {
-          console.log("Successfully decrpted the file")
-          console.log(res.decryptedText)
-        } else {
-          Alert.alert("Error", res);
-        }
-      }).catch((err) => {
-        console.log(err);
-      });
-  }
-
-  const getStringData = async (key) => {
-    try {
-      const value = await AsyncStorage.getItem(key)
-      const userID = value
-      console.log(`Fetched ${key} : ${value} from AsynStorage`)
-      if (value !== null) {
-        // value previously stored
-        return value
-      }
-    } catch (e) {
-      console.log(`Error Fetching AsyncStorage with key '${key}'`)
-      // error reading value
-    }
+    uploadImage(file)
   }
 
 
-
-  const uploadImage = async (fileName, outputEncryptedFilePath) => {
+  const uploadImage = async (fileName) => {
 
     console.log("Inside upload Image function")
-
     const reference = storage().ref(`${await getStringData("userID")}/${fileName}`)
 
     //const newPath = getPath(outputEncryptedFilePath)
 
-    const pathToFile = outputEncryptedFilePath;
+    const pathToFile = encryptFilePath;
     reference.putFile(pathToFile);
 
     const task = reference.putFile(pathToFile);

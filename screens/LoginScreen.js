@@ -22,7 +22,6 @@ const LoginScreen = () => {
   const [code, setCode] = useState('');
 
   const navigation = useNavigation()
-  console.log(navigation)
 
 
 

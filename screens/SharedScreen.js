@@ -1,22 +1,47 @@
 import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native'
-
-import React from 'react'
+import React, { useState } from 'react'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 const SharedScreen = () => {
 
+  const [inputFilePath, setInputFilePath] = useState("");
+  const [encryptFilePath, setEncryptFilePath] = useState("");
+  const [encryptFilePassword, setEncryptFilePassword] = useState("");
+  const [encryptInputFilePath, setEncryptInputFilePath] = useState("");
+  const [decryptFilePath, setDecryptFilePath] = useState("");
+  const [decryptFilePassword, setDecryptFilePassword] = useState("");
+  const [fileIv, setFileIv] = useState("");
+  const [fileSalt, setFileSalt] = useState("");
+
+
+
+  //implement code here
+
+
+
+
+
+
+
+
+
+
   return (
-    <View style={styles.item}>
-      <View style={styles.itemLeft}>
-        <View style={styles.square}></View>
+    <View>
+      <View style={styles.item}>
+        <View style={styles.itemLeft}>
+          <View style={styles.square}></View>
           <Text style={styles.itemText}>Hello</Text>
         </View>
-      <View style={styles.circular}></View>
+        <View style={styles.circular}></View>
+      </View>
+      <TouchableOpacity style={{alignSelf: 'center'}}
+        onPress={()=>{}}>
+        <Ionicons name='cloud-upload' color='red' size={40} />
+      </TouchableOpacity>
     </View>
-  )
-}
-
+)}
 export default SharedScreen
-
 const styles = StyleSheet.create({
   item: {
     backgroundColor: '#FFF',

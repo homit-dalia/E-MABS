@@ -11,10 +11,12 @@ import AddScreen from './AddScreen'
 import SharedScreen from './SharedScreen'
 import AccountScreen from './AccountScreen'
 import FileOpen from './FileOpen'
+import EditProfile from '../screens2/EditProfile'
 
 import { Dimensions } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
-import { auth } from '../firebase'
+
 
 
 
@@ -24,23 +26,12 @@ const Tab = createBottomTabNavigator();
 const fullScreenWidth = Dimensions.get('window').width;
 
 
-async function updateProfile() {
-  const update = {
-    displayName: "Test User 123",
-    photoURL: null,
-  };
-
-  await auth.currentUser.updateProfile(update);
-
-  console.log("Updated User Credentials")
-  console.log(auth)
-}
 
 
 
 function Fav1StackScreen() {
 
-
+  
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -62,7 +53,7 @@ function Fav1StackScreen() {
 
         }}
       />
-      <Stack.Screen name="File Open" component={FileOpen} options={{headerShown: true}}/> 
+      <Stack.Screen name="File Open" component={FileOpen} options={({ route }) => ({ title: route.params.content })}/> 
     </Stack.Navigator>
   );
 }
@@ -87,11 +78,21 @@ function SharedStackScreen() {
   return (
     <Stack.Navigator>
       <Stack.Screen name='Shared with you' component={SharedScreen} />
+      <Stack.Screen name="File Open" component={FileOpen} options={({ route }) => ({ title: route.params.content })}/> 
     </Stack.Navigator>
   )
 }
 
 function AccountStackScreen() {
+
+  const navigation = useNavigation()
+
+
+  function handleEditProfile(){
+    navigation.navigate("Edit Profile")
+  }
+
+
   return (
     <Stack.Navigator>
       <Stack.Screen name='Settings' component={AccountScreen}
@@ -99,11 +100,13 @@ function AccountStackScreen() {
 
           //not required
           headerRight: () => (
-            <TouchableOpacity onPress={updateProfile}>
+            <TouchableOpacity onPress={handleEditProfile}>
               <Text style={styles.headerButtons}>Edit</Text>
             </TouchableOpacity>
           ),
         }} />
+      <Stack.Screen name='Edit Profile' component={EditProfile} />
+
     </Stack.Navigator>
   )
 }

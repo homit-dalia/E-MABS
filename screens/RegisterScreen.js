@@ -3,6 +3,8 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native'
 import { auth } from '../firebase'
 
+
+
 const RegisterScreen = () => {
 
   const [confirm, setConfirm] = useState(null);
@@ -32,6 +34,7 @@ const RegisterScreen = () => {
       .catch(error => alert(error.message))
   }
 
+  
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -60,6 +63,7 @@ const RegisterScreen = () => {
           style={styles.input}
         />
         <Text style={styles.guidingText}>Enter your password (minimum 6 characters) :</Text>
+        
         <TextInput
           placeholder="Password"
           value={password}

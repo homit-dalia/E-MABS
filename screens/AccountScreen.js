@@ -1,21 +1,33 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
 import React, { useContext, createContext, useState } from 'react'
 import { auth } from '../firebase'
+import { downloadImage } from '../common'
+import RNFetchBlob from 'rn-fetch-blob'
 
-
-
-const AccountScreen = () => {
+const AccountScreen = ({ route }) => {
 
   var user = auth.currentUser;
-  console.log(user)
+
+
   const signOutUser = () => {
-    console.log("In sign out function inside account.js")
-    auth
-      .signOut()
-      .then(() => {
-        console.log("Signed out")
-      })
-      .catch(error => alert(error.message))
+
+    RNFetchBlob.session('deleteOnSignOut').dispose().then(() => {
+
+      console.log("Deleted all cached files")
+      auth
+        .signOut()
+        .then(() => {
+          console.log("Signed out")
+        })
+        .catch(error => alert(error.message))
+    })
+
+
+  }
+
+
+  if (user.photoURL != null) {
+    const userImageLocation = "file:///" + downloadImage(user.photoURL)
   }
 
   return (
@@ -30,16 +42,16 @@ const AccountScreen = () => {
             {user.displayName != null ? <Text style={styles.userFullNameText}>{user.displayName} </Text> : null}
           </View>
 
-         
+
         </View>
         <View>
-            <Text style={styles.userMetadata}>
-              Account created on : {user.metadata.creationTime}
-            </Text>
-            <Text style={styles.userMetadata}>
-              Last sign in : {user.metadata.lastSignInTime}
-            </Text>
-          </View>
+          <Text style={styles.userMetadata}>
+            Account created on : {user.metadata.creationTime}
+          </Text>
+          <Text style={styles.userMetadata}>
+            Last sign in : {user.metadata.lastSignInTime}
+          </Text>
+        </View>
       </View>
 
 
@@ -88,6 +100,8 @@ const styles = StyleSheet.create({
   userImage: {
     width: 80,
     height: 80,
+
+    borderRadius: 200,
   },
   userFullNameContainer: {
     //backgroundColor: 'black',
