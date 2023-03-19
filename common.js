@@ -1,6 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import storage from '@react-native-firebase/storage';
 import RNFetchBlob from "rn-fetch-blob";
+import {useEffect} from 'react';
+
+
+export const delay = ms => new Promise(
+  resolve => setTimeout(resolve, ms)
+);
+
 
 export async function getStringData (key) {
     try {

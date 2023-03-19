@@ -21,8 +21,6 @@ const AccountScreen = ({ route }) => {
         })
         .catch(error => alert(error.message))
     })
-
-
   }
 
 

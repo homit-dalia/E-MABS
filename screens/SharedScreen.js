@@ -1,26 +1,16 @@
-import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Button, Alert } from 'react-native'
 import React, { useState } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import DocumentPicker from 'react-native-document-picker'
+import RNFetchBlob from 'rn-fetch-blob'
+import RNEncryptionModule from "@dhairyasharma/react-native-encryption";
+import getPath from '@flyerhq/react-native-android-uri-path'
+import { delay } from '../common'
+import storage from '@react-native-firebase/storage';
+import { getStringData } from '../common'
 
+var RNFS = require("react-native-fs");
 const SharedScreen = () => {
-
-  const [inputFilePath, setInputFilePath] = useState("");
-  const [encryptFilePath, setEncryptFilePath] = useState("");
-  const [encryptFilePassword, setEncryptFilePassword] = useState("");
-  const [encryptInputFilePath, setEncryptInputFilePath] = useState("");
-  const [decryptFilePath, setDecryptFilePath] = useState("");
-  const [decryptFilePassword, setDecryptFilePassword] = useState("");
-  const [fileIv, setFileIv] = useState("");
-  const [fileSalt, setFileSalt] = useState("");
-
-
-
-  //implement code here
-
-
-
-
-
 
 
 
@@ -35,12 +25,13 @@ const SharedScreen = () => {
         </View>
         <View style={styles.circular}></View>
       </View>
-      <TouchableOpacity style={{alignSelf: 'center'}}
-        onPress={()=>{}}>
+      <TouchableOpacity style={{ alignSelf: 'center' }}
+        onPress={()=> {}}>
         <Ionicons name='cloud-upload' color='red' size={40} />
       </TouchableOpacity>
     </View>
-)}
+  )
+}
 export default SharedScreen
 const styles = StyleSheet.create({
   item: {

@@ -5,15 +5,9 @@ import DocumentPicker from 'react-native-document-picker'
 import storage from '@react-native-firebase/storage';
 import getPath from '@flyerhq/react-native-android-uri-path'
 import RNEncryptionModule from "@dhairyasharma/react-native-encryption"
-
+import { delay } from '../common';
 import { getStringData } from '../common';
 
-import RNFetchBlob from 'rn-fetch-blob'
-import { launchImageLibrary } from 'react-native-image-picker';
-
-
-var RNFS = require("react-native-fs");
-var password = "1234"
 
 const requestStoragePermission = async () => {
   try {
@@ -51,147 +45,53 @@ const AddScreen = () => {
   const [fileIv, setFileIv] = useState("");
   const [fileSalt, setFileSalt] = useState("");
 
-  function encryptFileImagePicker(response) {
 
-    setEncryptFilePassword('1234')
+  async function selectDocument() {
+    try {
+      const file = await DocumentPicker.pickSingle({type: [DocumentPicker.types.allFiles]});
+      console.log(file)
 
-    RNEncryptionModule.encryptFile(
-      inputFilePath,
-      encryptFilePath,
-      encryptFilePassword
-    ).then((res) => {
+      const inpPath = getPath(file.uri)
+      const extPath = getPath(file.uri)
+      setInputFilePath("file:///" + inpPath)
+      setEncryptFilePath("file:///" + extPath)
+      console.log(inputFilePath, decryptFilePath)
+
+      console.log("Before Delay")
+      await delay(1000)
+      console.log("After Delay")
+
+      encryptFile()
+      uploadImage(file.name)
+
+    } catch (error) {
+      if (DocumentPicker.isCancel(error))
+        console.log("User cancelled Document picker")
+      else
+        console.log(error)
+    }
+  }
+
+  async function encryptFile() {
+    RNEncryptionModule.encryptFile(inputFilePath,encryptFilePath,"1234").then(
+      (res) => {
       if (res.status == "success") {
+        console.log(res)
         setEncryptInputFilePath(encryptFilePath);
         setDecryptFilePassword(encryptFilePassword);
         setFileIv(res.iv);
         setFileSalt(res.salt);
 
-        console.log(response)
-        uploadImage(response.assets[0].fileName, encryptFilePath)
 
-
-        Alert.alert("Successful");
       } else {
         Alert.alert("Error", res.error);
-        console.log("In error encrypt image")
       }
     });
   }
-
-   async function launchImagePicker() {
-     await launchImageLibrary({mediaType: 'mixed'})
-     .then(async (response) => {
-      if (response.didCancel && response.assets == null) {
-        console.log("Cancelled Image Picker")
-      }
-      else {
-        if (Platform.OS == "android" && response.assets[0].uri.startsWith("content://")) 
-        {
-          RNFetchBlob.fs
-            .stat(response.assets[0].uri)
-            .then((statResult) => {
-              setInputFilePath(statResult.path);
-            })
-            .catch((err) => {
-              console.log("Error ==>> ", err);
-            });
-            console.log("Input File Path = ",inputFilePath)
-
-        } 
-        else 
-        {
-          setInputFilePath(response.assets[0].uri);
-          console.log("Input File Path = ",inputFilePath)
-        }
-
-        setEncryptFilePath(
-          RNFS.DocumentDirectoryPath +
-          "/Encrypted_" +
-          response.assets[0].uri.split("/").pop()
-        );
-
-        encryptFileImagePicker(response)
-        console.log(" encryptFileImagePicker Done")
-      }
-    })
-  }
-
-
-
-
-
-
-
-
-
-
-  const chooseDocument = async () => {
-    try {
-      const file = await DocumentPicker.pickSingle({
-        type: [DocumentPicker.types.allFiles],
-      });
-      console.log(file)
-      console.log(RNFS.DocumentDirectoryPath +
-        "/Encrypted_" +
-        file.uri.split("/").pop())
-      setEncryptFilePath(
-        RNFS.DocumentDirectoryPath +
-        "/Encrypted_" +
-        file.uri.split("/").pop()
-      );
-      encryptFile(file)
-    } catch (error) {
-      if (DocumentPicker.isCancel(error))
-        console.log("User cancelled Document picker", error)
-      else
-        console.log(error)
-    }
-  };
-
-  async function encryptFile(file) {
-
-    const newPath = getPath(file.uri)
-    console.log("Log New path", newPath)
-
-    RNFetchBlob.fs
-      .stat(file.uri)
-      .then((statResult) => {
-        setInputFilePath(statResult.path);
-        console.log("Input File path = ", inputFilePath)
-      })
-      .catch((err) => {
-        console.log("Error ==>> ", err);
-      });
-
-
-    console.log("Input File Path just before encrypt function : ", inputFilePath)
-    console.log("Output File Path just before encrypt function : ", encryptFilePath)
-
-
-    await RNEncryptionModule.encryptFile(
-      inputFilePath,
-      "file:///" + encryptFilePath,
-      password
-    ).then((res) => {
-      if (res.status == "success") {
-        console.log("success", res)
-      } else {
-        console.log("error", res);
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
-
-    uploadImage(file)
-  }
-
 
   const uploadImage = async (fileName) => {
-
     console.log("Inside upload Image function")
     const reference = storage().ref(`${await getStringData("userID")}/${fileName}`)
-
-    //const newPath = getPath(outputEncryptedFilePath)
 
     const pathToFile = encryptFilePath;
     reference.putFile(pathToFile);
@@ -208,30 +108,22 @@ const AddScreen = () => {
   }
 
   function temp() {
-
   }
   return (
     <View >
-
       <View>
         <View style={styles.headerContainer}>
           <View style={styles.headerLeft}>
             <Text style={styles.headerText}>Add Screen</Text>
           </View>
           <View style={styles.headerButtons}>
-            <TouchableOpacity
-              onPress={temp}
-            >
-              <Ionicons name='reload-outline' color={'black'} size={30} />
-            </TouchableOpacity>
           </View>
         </View>
-
       </View>
 
       <Text>AddScreen</Text>
       <TouchableOpacity style={styles.uploadIcon}
-        onPress={chooseDocument}>
+        onPress={selectDocument}>
         <Ionicons name='cloud-upload' color='#088821' size={40} />
       </TouchableOpacity>
 
@@ -240,10 +132,10 @@ const AddScreen = () => {
         <Ionicons name='hardware-chip-outline' color='#696969' size={80} />
       </TouchableOpacity>
       <Text>launch Image Library Button </Text>
-      <TouchableOpacity style={styles.uploadIcon}
+      {/* <TouchableOpacity style={styles.uploadIcon}
         onPress={launchImagePicker}>
         <Ionicons name='cloud-upload' color='grey' size={40} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   )
 }

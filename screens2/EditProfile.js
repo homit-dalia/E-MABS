@@ -1,27 +1,24 @@
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { auth } from '../firebase'
 
 import { getStringData} from '../common';
 import { getURL } from '../common';
 
-import RNFetchBlob from 'rn-fetch-blob'
 import DocumentPicker from 'react-native-document-picker';
-import { launchImageLibrary } from 'react-native-image-picker';
+
 import storage from '@react-native-firebase/storage';
 import getPath from '@flyerhq/react-native-android-uri-path'
 
+const EditProfile = ({navigation}) => {
 
-var user = auth.currentUser;
-console.log(user)
-
-const EditProfile = () => {
-
-
-  
     const [name, setName ] = useState(null)
-    const [image, setImage] = useState(null)
+    const [user, setUser] = useState(null)
+
+    useEffect(() => {
+      setUser(auth.currentUser)
+    }, []);
 
     const uploadImage = async (fileName, path) => {
 
@@ -68,6 +65,7 @@ const EditProfile = () => {
     
         console.log("Updated User Credentials")
         console.log(auth)
+        navigation.navigate("Settings")
     }
 
     return (
