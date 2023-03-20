@@ -39,8 +39,6 @@ const Favourites1Screen = ({ navigation }) => {
 
     listFilesAndDirectories(reference).then(() => {
       console.log('Finished listing');
-
-
       if (Platform.OS === 'android') {
         ToastAndroid.show("Refreshed !", ToastAndroid.SHORT)
       } else {

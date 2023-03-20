@@ -8,6 +8,7 @@ export const delay = ms => new Promise(
   resolve => setTimeout(resolve, ms)
 );
 
+export const userID = getStringData("userID")
 
 export async function getStringData (key) {
     try {

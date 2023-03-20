@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image, PermissionsAndroid, Alert } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import DocumentPicker from 'react-native-document-picker'
 import storage from '@react-native-firebase/storage';
@@ -7,8 +7,10 @@ import getPath from '@flyerhq/react-native-android-uri-path'
 import RNEncryptionModule from "@dhairyasharma/react-native-encryption"
 import { delay } from '../common';
 import { getStringData } from '../common';
+import firebase from 'firebase';
+import userID from '../common'
 
-
+fileName = ""
 const requestStoragePermission = async () => {
   try {
     const granted = await PermissionsAndroid.request(
@@ -33,6 +35,7 @@ const requestStoragePermission = async () => {
     console.warn(err);
   }
 };
+var RNFS = require("react-native-fs");
 
 const AddScreen = () => {
 
@@ -46,24 +49,61 @@ const AddScreen = () => {
   const [fileSalt, setFileSalt] = useState("");
 
 
+  useEffect(() => {
+    if (encryptFilePath != "") {
+      encryptFile()
+    }
+  }, [encryptFilePath]);
+
+  useEffect(() => {
+    if (encryptFilePath != "") {
+      uploadImage()
+    }
+  }, [fileSalt])
+
+
+  async function uploadMetadata(fileName) {
+    //updating file metadata. To Do : Add location data
+    var myCustomMetadata = {
+      customMetadata: {
+        'fileIv': fileIv,
+        'fileSalt': fileSalt
+      }
+    }
+
+    const reference = storage().ref(await getStringData("userID") + "/" + fileName);
+    reference.updateMetadata(myCustomMetadata).then(() => {
+      console.log("Added File Metadata")
+    })
+  }
+
+  async function encryptFile() {
+    console.log("Input File Path is - ", inputFilePath)
+    RNEncryptionModule.encryptFile(inputFilePath, encryptFilePath, "1234").then((res) => {
+      if (res.status == "success") {
+        console.log(res)
+        setEncryptInputFilePath(encryptFilePath);
+        setDecryptFilePassword(encryptFilePassword);
+        setFileIv(res.iv);
+        setFileSalt(res.salt);
+
+      } else {
+        console.log("Error in encryption function - ", res.error);
+      }
+    });
+  }
+
   async function selectDocument() {
     try {
-      const file = await DocumentPicker.pickSingle({type: [DocumentPicker.types.allFiles]});
-      console.log(file)
-
-      const inpPath = getPath(file.uri)
-      const extPath = getPath(file.uri)
-      setInputFilePath("file:///" + inpPath)
-      setEncryptFilePath("file:///" + extPath)
-      console.log(inputFilePath, decryptFilePath)
-
-      console.log("Before Delay")
-      await delay(1000)
-      console.log("After Delay")
-
-      encryptFile()
-      uploadImage(file.name)
-
+      DocumentPicker
+        .pickSingle({ type: [DocumentPicker.types.allFiles] })
+        .then((file) => {
+          console.log(file)
+          fileName = file.name
+          setInputFilePath("file:///" + getPath(file.uri))
+          setEncryptFilePath("file:///" + RNFS.TemporaryDirectoryPath + "/Encrypted_" + file.name)
+          console.log("\n", inputFilePath, "\n", encryptFilePath)
+        })
     } catch (error) {
       if (DocumentPicker.isCancel(error))
         console.log("User cancelled Document picker")
@@ -72,25 +112,8 @@ const AddScreen = () => {
     }
   }
 
-  async function encryptFile() {
-    RNEncryptionModule.encryptFile(inputFilePath,encryptFilePath,"1234").then(
-      (res) => {
-      if (res.status == "success") {
-        console.log(res)
-        setEncryptInputFilePath(encryptFilePath);
-        setDecryptFilePassword(encryptFilePassword);
-        setFileIv(res.iv);
-        setFileSalt(res.salt);
-
-
-      } else {
-        Alert.alert("Error", res.error);
-      }
-    });
-  }
-
-  const uploadImage = async (fileName) => {
-    console.log("Inside upload Image function")
+  const uploadImage = async () => {
+    //console.log("Inside upload Image function")
     const reference = storage().ref(`${await getStringData("userID")}/${fileName}`)
 
     const pathToFile = encryptFilePath;
@@ -103,6 +126,9 @@ const AddScreen = () => {
 
     task.then(() => {
       console.log('Image uploaded to the bucket!');
+      uploadMetadata(fileName)
+      setEncryptFilePath("")
+      setFileSalt("")
     });
 
   }
@@ -133,7 +159,7 @@ const AddScreen = () => {
       </TouchableOpacity>
       <Text>launch Image Library Button </Text>
       {/* <TouchableOpacity style={styles.uploadIcon}
-        onPress={launchImagePicker}>
+        onPress={updateTempMetadata}>
         <Ionicons name='cloud-upload' color='grey' size={40} />
       </TouchableOpacity> */}
     </View>
