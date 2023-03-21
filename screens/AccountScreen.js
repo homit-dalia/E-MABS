@@ -8,7 +8,6 @@ const AccountScreen = ({ route }) => {
 
   var user = auth.currentUser;
 
-
   const signOutUser = () => {
 
     RNFetchBlob.session('deleteOnSignOut').dispose().then(() => {

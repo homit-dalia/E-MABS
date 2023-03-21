@@ -5,11 +5,10 @@ import DocumentPicker from 'react-native-document-picker'
 import RNFetchBlob from 'rn-fetch-blob'
 import RNEncryptionModule from "@dhairyasharma/react-native-encryption";
 import getPath from '@flyerhq/react-native-android-uri-path'
-import { delay } from '../common'
+
 import storage from '@react-native-firebase/storage';
 import { getStringData } from '../common'
 
-var RNFS = require("react-native-fs");
 const SharedScreen = () => {
 
 
@@ -25,10 +24,6 @@ const SharedScreen = () => {
         </View>
         <View style={styles.circular}></View>
       </View>
-      <TouchableOpacity style={{ alignSelf: 'center' }}
-        onPress={()=> {}}>
-        <Ionicons name='cloud-upload' color='red' size={40} />
-      </TouchableOpacity>
     </View>
   )
 }

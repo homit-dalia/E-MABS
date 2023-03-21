@@ -139,7 +139,7 @@ const Favourites1Screen = ({ navigation }) => {
   }
 
   function handleOpenFile(fileName, fileType) {
-    navigation.navigate('File Open', { content: fileName, folder: fileType }) //add code here to call getURL in FileOpen
+    navigation.push('File Open', { content: fileName, folder: fileType }) //add code here to call getURL in FileOpen
 
   }
   return (
