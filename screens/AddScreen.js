@@ -63,6 +63,8 @@ const AddScreen = () => {
   const [fileIv, setFileIv] = useState("");
   const [fileSalt, setFileSalt] = useState("");
 
+  const [time, setTime] = useState("");
+
 
   useEffect(() => {
     if (encryptFilePath != "") {
@@ -71,18 +73,20 @@ const AddScreen = () => {
   }, [encryptFilePath]);
 
   useEffect(() => {
-    if (encryptFilePath != "") {
-      uploadImage()
+    if (time != "") {
+      uploadFile()
     }
-  }, [fileSalt])
+  }, [time])
 
 
   async function uploadMetadata(fileName) {
     //updating file metadata. To Do : Add location data
+
     var myCustomMetadata = {
       customMetadata: {
         'fileIv': fileIv,
-        'fileSalt': fileSalt
+        'fileSalt': fileSalt,
+        'uploadTime' : time.toString(),
       }
     }
 
@@ -101,6 +105,10 @@ const AddScreen = () => {
         setDecryptFilePassword(encryptFilePassword);
         setFileIv(res.iv);
         setFileSalt(res.salt);
+
+        //not in encryption function
+        const utcTimestamp = new Date().getTime();
+        setTime(utcTimestamp)
 
       } else {
         console.log("Error in encryption function - ", res.error);
@@ -127,7 +135,7 @@ const AddScreen = () => {
     }
   }
 
-  const uploadImage = async () => {
+  const uploadFile = async () => {
     //console.log("Inside upload Image function")
     const reference = storage().ref(`${await getStringData("userID")}/${fileName}`)
 
@@ -137,15 +145,16 @@ const AddScreen = () => {
     const task = reference.putFile(pathToFile);
     task.on('state_changed', taskSnapshot => {
       console.log(`${taskSnapshot.bytesTransferred / 1000000}MB transferred out of ${taskSnapshot.totalBytes / 1000000}MB`);
-      showToast("Uploading Image",taskSnapshot.bytesTransferred / 1000000 + " of " + taskSnapshot.totalBytes / 1000000 + " MB uploaded." , false)
+      showToast("Uploading File",Math.round((taskSnapshot.bytesTransferred / 1000000) * 100) / 100 + " of " +Math.round(( taskSnapshot.totalBytes / 1000000) * 100) /100 + " MB uploaded." , false)
     });
 
     task.then(() => {
-      console.log('Image uploaded to the bucket!');
-      showToast("Image Uploaded Successfully", hide= true)
+      console.log('File uploaded to the bucket!');
+      showToast("File Uploaded Successfully", hide= true)
       uploadMetadata(fileName)
       setEncryptFilePath("")
       setFileSalt("")
+      setTime("")
     });
 
   }

@@ -29,24 +29,56 @@ var gateKeep = ''
 const Favourites1Screen = ({ navigation }) => {
 
   const [fileList, setFileList] = useState([])
+  const [fileFetched, setFileFetched] = useState("")
+
+  const [filter, setFilter] = useState("")
 
   useEffect(() => {
     listFiles()
   }, []);
+
+  useEffect(() => {
+    if(fileFetched == 1){
+      sortAlphabetical()
+
+    }
+  }, [fileFetched])
+
+
+  function sortAlphabetical() {
+    const newFileList = fileList.sort((a, b) => {
+      const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+      const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    });
+
+    setFileList(newFileList)
+    setFileFetched(0)
+  }
+
   async function listFiles() {
     const reference = storage().ref(await getStringData("userID"));
     gateKeep = await getStringData("userID") + '.metadata'
 
     listFilesAndDirectories(reference).then(() => {
+
+
+
       console.log('Finished listing');
       if (Platform.OS === 'android') {
         ToastAndroid.show("Refreshed !", ToastAndroid.SHORT)
       } else {
         AlertIOS.alert("Refreshed!");
       }
-      //console.warn("All files listed")
 
-      //setTimeout(listFiles, 10000);
+      setFileFetched(1)
+
     });
   }
 
@@ -77,10 +109,10 @@ const Favourites1Screen = ({ navigation }) => {
       result.items.forEach(ref => {
         newPathWithoutUID = removeUIDFromFilePath(ref.path)
         if (checkFileExists(newPathWithoutUID)) {
-          setFileList(fileList => [...fileList, { name: newPathWithoutUID, id: `${fileCount}`, folder: false, encrypted : true }])
+          setFileList(fileList => [...fileList, { name: newPathWithoutUID, id: `${fileCount}`, folder: false, encrypted: true }])
           fileCount++
           console.log("Stored File " + newPathWithoutUID)
-          
+
           //updateSessionList(newPathWithoutUID)
         }
         else {
@@ -95,7 +127,7 @@ const Favourites1Screen = ({ navigation }) => {
         if (checkFileExists(newPathWithoutUID) && newPathWithoutUID != gateKeep) {
 
           console.log(newPathWithoutUID)
-          setFileList(fileList => [...fileList, { name: newPathWithoutUID, id: `${fileCount}`, folder: true, encrypted : false }])
+          setFileList(fileList => [...fileList, { name: newPathWithoutUID, id: `${fileCount}`, folder: true, encrypted: false }])
           fileCount++
           console.log("Stored Folder " + newPathWithoutUID)
 
@@ -150,6 +182,15 @@ const Favourites1Screen = ({ navigation }) => {
             <Text style={styles.headerText}>Favourites</Text>
           </View>
           <View style={styles.headerButtonsContainer}>
+
+            {filter != "" ? <TouchableOpacity onPress={listFiles} style={styles.headerButtons}>
+              <Ionicons name='filter' color={'black'} size={30} />
+            </TouchableOpacity> :
+
+              <TouchableOpacity onPress={listFiles} style={styles.headerButtons}>
+                <Ionicons name='filter-outline' color={'black'} size={30} />
+              </TouchableOpacity>}
+
 
             <TouchableOpacity onPress={listFiles} style={styles.headerButtons}>
               <Ionicons name='reload-outline' color={'black'} size={30} />
