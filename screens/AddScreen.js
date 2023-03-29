@@ -5,10 +5,12 @@ import DocumentPicker from 'react-native-document-picker'
 import storage from '@react-native-firebase/storage';
 import getPath from '@flyerhq/react-native-android-uri-path'
 import RNEncryptionModule from "@dhairyasharma/react-native-encryption"
-import { delay } from '../common';
 import { getStringData } from '../common';
-import firebase from 'firebase';
-import userID from '../common'
+import Toast from 'react-native-toast-message';
+import {Dimensions} from 'react-native'
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 fileName = ""
 const requestStoragePermission = async () => {
@@ -35,6 +37,19 @@ const requestStoragePermission = async () => {
     console.warn(err);
   }
 };
+
+const showToast = (texthead,textbody, hide) => {
+  Toast.show({
+    type: 'info',
+    text1: texthead,
+    text2: textbody,
+    autoHide: hide,
+    // position: 'bottom'
+    topOffset	: windowHeight - 168,
+
+  });
+}
+
 var RNFS = require("react-native-fs");
 
 const AddScreen = () => {
@@ -122,10 +137,12 @@ const AddScreen = () => {
     const task = reference.putFile(pathToFile);
     task.on('state_changed', taskSnapshot => {
       console.log(`${taskSnapshot.bytesTransferred / 1000000}MB transferred out of ${taskSnapshot.totalBytes / 1000000}MB`);
+      showToast("Uploading Image",taskSnapshot.bytesTransferred / 1000000 + " of " + taskSnapshot.totalBytes / 1000000 + " MB uploaded." , false)
     });
 
     task.then(() => {
       console.log('Image uploaded to the bucket!');
+      showToast("Image Uploaded Successfully", hide= true)
       uploadMetadata(fileName)
       setEncryptFilePath("")
       setFileSalt("")
@@ -154,7 +171,7 @@ const AddScreen = () => {
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.uploadIcon}
-        onPress={encryptFile}>
+        onPress={showToast}>
         <Ionicons name='hardware-chip-outline' color='#696969' size={80} />
       </TouchableOpacity>
       <Text>launch Image Library Button </Text>
@@ -162,6 +179,8 @@ const AddScreen = () => {
         onPress={updateTempMetadata}>
         <Ionicons name='cloud-upload' color='grey' size={40} />
       </TouchableOpacity> */}
+
+      <Toast />
     </View>
   )
 }
