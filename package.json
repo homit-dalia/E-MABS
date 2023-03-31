@@ -13,6 +13,7 @@
     "@dhairyasharma/react-native-encryption": "^1.0.0",
     "@flyerhq/react-native-android-uri-path": "^2.3.0",
     "@react-native-async-storage/async-storage": "^1.17.11",
+    "@react-native-community/geolocation": "^3.0.5",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-firebase/app": "^17.3.1",
     "@react-native-firebase/auth": "^17.3.1",
@@ -41,6 +42,7 @@
     "react-native-vector-icons": "^9.2.0",
     "react-navigation": "^4.4.4",
     "react-navigation-stack": "^2.10.4",
+    "rn-bottom-drawer": "^1.4.3",
     "rn-fetch-blob": "^0.12.0"
   },
   "devDependencies": {

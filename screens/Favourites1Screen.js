@@ -9,8 +9,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import storage from '@react-native-firebase/storage';
 import { getStringData } from '../common';
-import { useNavigation } from '@react-navigation/native';
-import { auth } from '../firebase'
+import BottomDrawer from 'rn-bottom-drawer'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -38,7 +37,7 @@ const Favourites1Screen = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    if(fileFetched == 1){
+    if (fileFetched == 1) {
       sortAlphabetical()
 
     }
@@ -228,6 +227,24 @@ const Favourites1Screen = ({ navigation }) => {
             </View>
           )}
         />
+        {/* <BottomDrawer
+          containerHeight={100}
+          offset={80}
+          shadow={true}
+          backgroundColor={'dimgrey'}
+          downDisplay={50}
+          roundedEdges={true}
+          panResponder={false}
+        >
+          {renderContent = () => {
+            return (
+              <View>
+                <Text>Get directions to your location</Text>
+              </View>
+            )
+          }
+          }
+        </BottomDrawer> */}
       </View>
     </View>
   );
