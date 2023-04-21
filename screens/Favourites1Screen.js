@@ -24,7 +24,6 @@ for (let index = 0; index < parseInt(windowWidth * 0.135); index++) {
 var fileCount = 0
 var gateKeep = ''
 
-
 const Favourites1Screen = ({ navigation }) => {
 
   const [fileList, setFileList] = useState([])

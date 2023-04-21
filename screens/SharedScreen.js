@@ -20,7 +20,7 @@ const SharedScreen = () => {
       <View style={styles.item}>
         <View style={styles.itemLeft}>
           <View style={styles.square}></View>
-          <Text style={styles.itemText}>Hello</Text>
+          <Text style={styles.itemText}>File 1</Text>
         </View>
         <View style={styles.circular}></View>
       </View>
