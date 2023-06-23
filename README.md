@@ -14,38 +14,53 @@ E-MABS is a mobile application made using React Native that performs CRUD operat
 - Location also included in file Metadata for ease of sorting
 - Alphabetical Sort by default
 - File upload progress shown as Toast
-  
+  ![1 Login](https://github.com/homit-dalia/E-MABS/assets/103167599/8190c77c-3e25-4095-b16b-2d6cbf44dd37)
+![2 Register](https://github.com/homit-dalia/E-MABS/assets/103167599/5996c034-36f9-4d60-95fc-e03b58fb8473)
+![3 Home](https://github.com/homit-dalia/E-MABS/assets/103167599/ec15db8c-c11c-40f7-99c1-3dd421b46621)
+![4 Shared](https://github.com/homit-dalia/E-MABS/assets/103167599/de91ee0b-22e6-49d7-8f3d-eb7a3f31cc4b)
+![15 DB Files](https://github.com/homit-dalia/E-MABS/assets/103167599/e8da4fe4-7324-40e2-a894-e0a5b4cd25e1)
+![14 DB Storage](https://github.com/homit-dalia/E-MABS/assets/103167599/0eed0479-6312-4cf2-9dbc-f5e26e776906)
+![13 DB Auth](https://github.com/homit-dalia/E-MABS/assets/103167599/7f2505af-8387-4c1b-b0ab-a4bda99c3cad)
+![12 View](https://github.com/homit-dalia/E-MABS/assets/103167599/03537d6e-f5ae-41e6-bda2-340192b12b66)
+![11 Loading](https://github.com/homit-dalia/E-MABS/assets/103167599/e72c1548-d2df-421b-9d36-404076e7c57f)
+![10 Refreshed](https://github.com/homit-dalia/E-MABS/assets/103167599/8590bcba-9994-42a9-bfd1-54468ccd382d)
+![9 Uploaded](https://github.com/homit-dalia/E-MABS/assets/103167599/c17ca0b6-4963-4c68-862c-b8d679749651)
+![8 Uploading](https://github.com/homit-dalia/E-MABS/assets/103167599/442c8545-3d3b-4d69-9134-d8677c58c712)
+![7 Select](https://github.com/homit-dalia/E-MABS/assets/103167599/f0381e51-2f03-4e12-acf4-652b89db3e0e)
+![6 Upload](https://github.com/homit-dalia/E-MABS/assets/103167599/40e879a2-0747-464a-ac40-75bbdc2e0ffd)
+![5 Settings](https://github.com/homit-dalia/E-MABS/assets/103167599/a399f5c1-8b74-4973-af83-f99a9d3de332)
+
 ## Screenshots
 <p float="center">
-  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/a5242da6-b415-4288-87fe-0fa45bd297a2" width="30%" />
-  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/fa83e87e-0553-4a3b-a328-cc3f9b2140fe" width="30%" /> 
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/8190c77c-3e25-4095-b16b-2d6cbf44dd37" width="30%" />
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/5996c034-36f9-4d60-95fc-e03b58fb8473" width="30%" /> 
 </p>
 <p float="center">
-  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/d82da52e-e3b3-4298-8cb7-ee3c75ed79d7" width="30%" />
-  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/a6457bd7-83a9-45f9-8577-e64fe08d3e1a" width="30%" /> 
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/ec15db8c-c11c-40f7-99c1-3dd421b46621" width="30%" />
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/de91ee0b-22e6-49d7-8f3d-eb7a3f31cc4b" width="30%" /> 
 </p>
 <p float="center">
-  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/d6cda656-cb97-40af-9737-2ab1922c922b" width="30%" />
-  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/fcbd86ba-3d02-4505-a6ce-0a0984bf5cce" width="30%" /> 
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/a399f5c1-8b74-4973-af83-f99a9d3de332" width="30%" />
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/40e879a2-0747-464a-ac40-75bbdc2e0ffd" width="30%" /> 
 </p>
 <p float="center">
-  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/66eed841-cffd-43f1-aa9d-4a8f7401b20c" width="30%" />
-  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/16a79e07-1987-4621-a735-fa48badb5f04" width="30%" /> 
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/f0381e51-2f03-4e12-acf4-652b89db3e0e" width="30%" />
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/442c8545-3d3b-4d69-9134-d8677c58c712" width="30%" /> 
 </p>
 <p float="center">
-  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/9db4f7af-c54c-4044-bda0-3d200fe20775" width="30%" />
-  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/01be8e7e-ad36-4607-9159-099ce7e90305" width="30%" /> 
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/c17ca0b6-4963-4c68-862c-b8d679749651" width="30%" />
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/8590bcba-9994-42a9-bfd1-54468ccd382d" width="30%" /> 
 </p>
 <p float="center">
-  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/f4b0ed0c-3c34-46b5-b75f-073cc76fcd88" width="30%" />
-  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/3f7ff792-ca1a-4bed-ac79-1ace3cbb1a85" width="30%" /> 
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/e72c1548-d2df-421b-9d36-404076e7c57f" width="30%" />
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/03537d6e-f5ae-41e6-bda2-340192b12b66" width="30%" /> 
 </p>
 <p float="center">
-  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/93c4f023-e4c9-40b0-8b75-2cfbd713d636" width="80%" />
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/7f2505af-8387-4c1b-b0ab-a4bda99c3cad" width="80%" />
 </p>
 <p float="center">
-  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/d9b1e7e4-6cf4-4bee-82bc-c100f97dbf11" width="80%" />
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/0eed0479-6312-4cf2-9dbc-f5e26e776906" width="80%" />
 </p>
 <p float="center">
-  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/ca7871e3-07f4-4898-80f0-ad117eafd17f" width="80%" />
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/e8da4fe4-7324-40e2-a894-e0a5b4cd25e1" width="80%" />
 </p>
