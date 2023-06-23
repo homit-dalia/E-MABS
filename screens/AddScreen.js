@@ -214,18 +214,18 @@ const AddScreen = () => {
         <Ionicons name='cloud-upload' color='#088821' size={40} />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.uploadIcon}
+      {/* <TouchableOpacity style={styles.uploadIcon}
         onPress={showToast}>
         <Ionicons name='hardware-chip-outline' color='#696969' size={80} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <Text>launch Image Library Button </Text>
-      <TouchableOpacity style={styles.uploadIcon}
+      {/* <TouchableOpacity style={styles.uploadIcon}
         onPress={async () => {
           await requestLocationPermission()
           Geolocation.getCurrentPosition(info => console.log(info))
         }}>
         <Ionicons name='location' color='lightseagreen' size={40} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <Toast />
     </View>
