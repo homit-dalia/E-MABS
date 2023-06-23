@@ -5,6 +5,8 @@ E-MABS is a mobile application made using React Native that performs CRUD operat
 - User Authentication (Username and Password)
 - 2FA using Phone Number
 - Symmetric Encryption using 3rd Party Library
+- Firebase Authentication
+- Firebase Storage
 - Firebase Storage CRUD operations
 - Cache like system to download the files and store in local storage for fast access.
 - Automatically delete cached files upon signout.
@@ -12,7 +14,7 @@ E-MABS is a mobile application made using React Native that performs CRUD operat
 - Location also included in file Metadata for ease of sorting
 - Alphabetical Sort by default
 - File upload progress shown as Toast
-
+  
 ## Screenshots
 <p float="center">
   <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/a5242da6-b415-4288-87fe-0fa45bd297a2" width="30%" />
@@ -37,4 +39,13 @@ E-MABS is a mobile application made using React Native that performs CRUD operat
 <p float="center">
   <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/f4b0ed0c-3c34-46b5-b75f-073cc76fcd88" width="30%" />
   <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/3f7ff792-ca1a-4bed-ac79-1ace3cbb1a85" width="30%" /> 
+</p>
+<p float="center">
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/93c4f023-e4c9-40b0-8b75-2cfbd713d636" width="50%" />
+</p>
+<p float="center">
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/d9b1e7e4-6cf4-4bee-82bc-c100f97dbf11" width="50%" />
+</p>
+<p float="center">
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/ca7871e3-07f4-4898-80f0-ad117eafd17f" width="50%" />
 </p>
