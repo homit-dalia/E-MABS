@@ -11,10 +11,6 @@ import { getStringData } from '../common'
 
 const SharedScreen = () => {
 
-
-
-
-
   return (
     <View>
       <View style={styles.item}>
