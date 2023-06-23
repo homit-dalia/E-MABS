@@ -15,6 +15,6 @@ E-MABS is a mobile application made using React Native that performs CRUD operat
 
 ## Screenshots
 <p float="left">
-  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/a5242da6-b415-4288-87fe-0fa45bd297a2" width="100" />
-  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/fa83e87e-0553-4a3b-a328-cc3f9b2140fe" width="100" /> 
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/a5242da6-b415-4288-87fe-0fa45bd297a2" width="100%" />
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/fa83e87e-0553-4a3b-a328-cc3f9b2140fe" width="100%" /> 
 </p>
