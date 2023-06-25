@@ -14,7 +14,10 @@ E-MABS is a mobile application made using React Native that performs CRUD operat
 - Location also included in file Metadata for ease of sorting
 - Alphabetical Sort by default
 - File upload progress shown as Toast
-  
+
+## Video Demo
+https://github.com/homit-dalia/E-MABS/assets/103167599/e1b10b56-0a57-4278-81cf-f2391916a641
+
 ## Screenshots
 <p float="center">
   <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/8190c77c-3e25-4095-b16b-2d6cbf44dd37" width="30%" />
