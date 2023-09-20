@@ -28,6 +28,9 @@ https://github.com/homit-dalia/E-MABS/assets/103167599/e1b10b56-0a57-4278-81cf-f
 <p float="center">
   <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/e8da4fe4-7324-40e2-a894-e0a5b4cd25e1" width="80%" />
 </p>
+"Error Loading Preview" pops up on firebase because the file is encrypted and can only be decrypted by the same key used for encryption (symmetric encryption)
+
+   
 <p float="center">
   <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/8190c77c-3e25-4095-b16b-2d6cbf44dd37" width="30%" />
   <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/5996c034-36f9-4d60-95fc-e03b58fb8473" width="30%" /> 
