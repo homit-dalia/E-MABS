@@ -20,6 +20,15 @@ https://github.com/homit-dalia/E-MABS/assets/103167599/e1b10b56-0a57-4278-81cf-f
 
 ## Screenshots
 <p float="center">
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/7f2505af-8387-4c1b-b0ab-a4bda99c3cad" width="80%" />
+</p>
+<p float="center">
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/0eed0479-6312-4cf2-9dbc-f5e26e776906" width="80%" />
+</p>
+<p float="center">
+  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/e8da4fe4-7324-40e2-a894-e0a5b4cd25e1" width="80%" />
+</p>
+<p float="center">
   <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/8190c77c-3e25-4095-b16b-2d6cbf44dd37" width="30%" />
   <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/5996c034-36f9-4d60-95fc-e03b58fb8473" width="30%" /> 
 </p>
@@ -42,13 +51,4 @@ https://github.com/homit-dalia/E-MABS/assets/103167599/e1b10b56-0a57-4278-81cf-f
 <p float="center">
   <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/e72c1548-d2df-421b-9d36-404076e7c57f" width="30%" />
   <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/03537d6e-f5ae-41e6-bda2-340192b12b66" width="30%" /> 
-</p>
-<p float="center">
-  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/7f2505af-8387-4c1b-b0ab-a4bda99c3cad" width="80%" />
-</p>
-<p float="center">
-  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/0eed0479-6312-4cf2-9dbc-f5e26e776906" width="80%" />
-</p>
-<p float="center">
-  <img src="https://github.com/homit-dalia/E-MABS/assets/103167599/e8da4fe4-7324-40e2-a894-e0a5b4cd25e1" width="80%" />
 </p>
